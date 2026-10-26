@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Annasetu – Dashboard</title>
+  <meta name="description" content="Manage your food donations and claims on the Annasetu platform." />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- Material Symbols -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+
+<body>
+  <div class="dashboard">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar">
+      <div class="logo">अन्न-<span style="color:var(--accent);">Setu</span></div>
+      <nav>
+        <a href="#" class="nav-link active"><i class="fa fa-home"></i> Dashboard</a>
+        <a href="addfood.html" class="nav-link"><i class="fa fa-plus-circle"></i> Add Food</a>
+        <a href="browse.html" class="nav-link"><span class="material-symbols-outlined">food_bank</span> Browse Food</a>
+        <a href="manage-requests.html" class="nav-link"><i class="fa fa-tasks"></i> Manage Requests</a>
+        <a href="myclaims.html" class="nav-link"><i class="fa fa-inbox"></i> My Claims</a>
+        <a href="notifications.html" class="nav-link"><i class="fa fa-bell"></i> Notifications</a>
+        <a href="mydonations.html" class="nav-link"><i class="fa fa-gift"></i> My Donations</a>
+        <a href="profile.html" class="nav-link"><i class="fa fa-user"></i> Profile</a>
+        <a href="index.html" class="nav-link logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+      </nav>
+    </aside>
+
+    <!-- ── MAIN ── -->
+    <div class="main-content">
+
+      <!-- Header -->
+      <div class="header">
+        <div class="welcome-box">
+          <div class="user-avatar-badge">
+            <i class="fa fa-user"></i>
+            <span class="online-indicator"></span>
+          </div>
+          <div class="welcome-text">
+            <h2 id="pageTitle">Welcome Back, <span id="userNameDisplay">—</span> 👋</h2>
+            <p class="welcome-subtitle">Here is what is happening with your community food sharing today</p>
+          </div>
+        </div>
+        <div class="header-controls">
+          <div class="role-switch">
+            <button class="role-btn active" id="donorBtn" onclick="switchRole('donor')">
+              <i class="fa fa-gift"></i> Donor Mode
+            </button>
+            <button class="role-btn" id="receiverBtn" onclick="switchRole('receiver')">
+              <i class="fa fa-hand-holding-heart"></i> Receiver Mode
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Action / Impact Bar -->
+      <div class="quick-banner">
+        <div class="quick-banner-content">
+          <div class="quick-tag"><i class="fa fa-leaf"></i> Zero Food Waste Community</div>
+          <h3>Mitigating Food Loss, One Meal at a Time</h3>
+          <p>Every donation prevents methane emissions and supports local communities, cattle farms, and composting centers.</p>
+        </div>
+        <div class="quick-banner-actions">
+          <a href="addfood.html" class="btn-banner primary">
+            <i class="fa fa-plus-circle"></i> Donate Food
+          </a>
+          <a href="browse.html" class="btn-banner secondary">
+            <i class="fa fa-compass"></i> Explore Nearby
+          </a>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats">
+        <div class="card stat-donations">
+          <div class="stat-icon-wrap">
+            <i class="fa fa-gift"></i>
+          </div>
+          <div class="stat-info">
+            <h3 id="donationsCount">0</h3>
+            <p>My Donations</p>
+            <span class="stat-badge">Active Listings</span>
+          </div>
+        </div>
+        <div class="card stat-requests-in">
+          <div class="stat-icon-wrap">
+            <i class="fa fa-user-friends"></i>
+          </div>
+          <div class="stat-info">
+            <h3 id="requestsInCount">0</h3>
+            <p>Requests In</p>
+            <span class="stat-badge">Incoming Claims</span>
+          </div>
+        </div>
+        <div class="card stat-requests-out">
+          <div class="stat-icon-wrap">
+            <i class="fa fa-paper-plane"></i>
+          </div>
+          <div class="stat-info">
+            <h3 id="requestsOutCount">0</h3>
+            <p>Requests Out</p>
+            <span class="stat-badge">Your Claims</span>
+          </div>
+        </div>
+        <div class="card stat-nearby">
+          <div class="stat-icon-wrap">
+            <i class="fa fa-map-marker-alt"></i>
+          </div>
+          <div class="stat-info">
+            <h3 id="nearbyCount">0</h3>
+            <p>Nearby Food</p>
+            <span class="stat-badge">Within 10 km</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Donor Section -->
+      <div id="donorSection" class="section">
+        <div class="section-header">
+          <div class="section-header-title">
+            <div class="section-icon-badge donor">
+              <i class="fa fa-gift"></i>
+            </div>
+            <div>
+              <h3>My Food Donations</h3>
+              <p class="section-desc">Manage listings and view claim requests for your donated food</p>
+            </div>
+          </div>
+          <div class="section-header-actions">
+            <button onclick="location.href='addfood.html'" class="btn-primary">
+              <i class="fa fa-plus"></i> Add New Donation
+            </button>
+          </div>
+        </div>
+
+        <!-- Table Toolbar: Filters & Quick Search -->
+        <div class="table-toolbar">
+          <div class="filter-pills" id="donorFilterPills">
+            <button class="filter-pill active" data-filter="all" onclick="filterDonorTable('all')">
+              All
+            </button>
+            <button class="filter-pill" data-filter="available" onclick="filterDonorTable('available')">
+              Available
+            </button>
+            <button class="filter-pill" data-filter="claimed" onclick="filterDonorTable('claimed')">
+              Claimed
+            </button>
+            <button class="filter-pill" data-filter="completed" onclick="filterDonorTable('completed')">
+              Completed
+            </button>
+          </div>
+          <div class="search-box">
+            <i class="fa fa-search"></i>
+            <input type="text" id="donorSearchInput" placeholder="Filter by food name or type..." oninput="searchDonorTable(this.value)" />
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Food Item</th>
+                <th>Quantity</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="donorTableBody">
+              <!-- Populated by dashboard.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Receiver Section -->
+      <div id="receiverSection" class="section hidden">
+        <div class="section-header">
+          <div class="section-header-title">
+            <div class="section-icon-badge receiver">
+              <i class="fa fa-search"></i>
+            </div>
+            <div>
+              <h3>Available Food Nearby</h3>
+              <p class="section-desc">Fresh meals and produce available for pickup in your area</p>
+            </div>
+          </div>
+          <div class="section-header-actions">
+            <button onclick="location.href='browse.html'" class="btn-secondary">
+              <i class="fa fa-compass"></i> Full Map View
+            </button>
+          </div>
+        </div>
+
+        <!-- Table Toolbar: Search Nearby -->
+        <div class="table-toolbar">
+          <div class="search-box full-width-search">
+            <i class="fa fa-search"></i>
+            <input type="text" id="receiverSearchInput" placeholder="Search available food by name or location..." oninput="searchReceiverTable(this.value)" />
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Food Item</th>
+                <th>Quantity</th>
+                <th>Distance</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="receiverTableBody">
+              <!-- Populated by dashboard.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /main-content -->
+  </div><!-- /dashboard -->
+
+  <!-- ── EDIT DONATION MODAL ── -->
+  <div id="editModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Update Quantity</h2>
+        <button class="close-btn" onclick="closeEditModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-info-box">
+          <i class="fa fa-info-circle"></i>
+          <strong>Note:</strong> You can only update the quantity of your donation.
+        </div>
+        <div class="form-group">
+          <label>Food Name</label>
+          <div class="read-only-field" id="displayFoodName"></div>
+        </div>
+        <div class="form-group">
+          <label>Type</label>
+          <div class="read-only-field" id="displayFoodType"></div>
+        </div>
+        <div class="form-group">
+          <label>Location</label>
+          <div class="read-only-field" id="displayLocation"></div>
+        </div>
+        <form id="editForm">
+          <div class="form-group">
+            <label for="editQuantity">Quantity <span style="color:var(--danger);">*</span></label>
+            <input type="text" id="editQuantity" placeholder="e.g. 10 plates, 2 kg" required />
+          </div>
+          <button type="submit" class="btn-submit">
+            <i class="fa fa-save"></i> Save Quantity
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CLAIM MODAL ── -->
+  <div id="claimModal" class="modal" style="display:none;">
+    <div class="modal-content" style="max-width:600px;">
+      <div class="modal-header">
+        <h2>Submit Claim Request</h2>
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="claimDetails" style="margin-bottom:20px;padding:16px;background:var(--bg);border-radius:var(--radius-sm);border:1px solid var(--border);"></div>
+        <form id="claimForm">
+          <div class="form-group">
+            <label for="claimPurpose">Purpose of Claim <span style="color:var(--danger);">*</span></label>
+            <select id="claimPurpose" name="purpose" required>
+              <option value="">Select purpose…</option>
+              <option value="Human consumption">Human consumption</option>
+              <option value="Cattle feeding">Cattle feeding</option>
+              <option value="Organic compost">Organic compost</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="claimBeneficiaries">Number of People Benefiting <span style="color:var(--danger);">*</span></label>
+            <input type="number" id="claimBeneficiaries" name="beneficiaries" min="1" max="1000" placeholder="e.g. 5" required />
+          </div>
+          <div class="form-group">
+            <label for="claimAddress">Delivery / Pickup Address <span style="color:var(--danger);">*</span></label>
+            <div style="display:flex;gap:10px;margin-bottom:8px;">
+              <textarea id="claimAddress" name="address" rows="2"
+                placeholder="Enter full address where you'll receive/pickup the food" required
+                style="flex:1;"></textarea>
+              <button type="button" id="claimCurrentLocationBtn" class="btn-primary"
+                style="align-self:flex-end;padding:10px 14px;white-space:nowrap;font-size:12px;">
+                <i class="fa fa-location-dot"></i> Use Location
+              </button>
+            </div>
+            <small id="claimLocationStatus" style="color:var(--text-muted);"></small>
+            <div id="claimLocationMap" style="height:220px;margin-top:10px;border-radius:var(--radius-sm);display:none;"></div>
+          </div>
+          <div class="form-group">
+            <label for="claimPickupTime">Preferred Pickup / Delivery Time</label>
+            <input type="datetime-local" id="claimPickupTime" name="preferredPickupTime" />
+          </div>
+          <div class="form-group">
+            <label for="claimNotes">Special Requirements / Notes</label>
+            <textarea id="claimNotes" name="notes" rows="3"
+              placeholder="Any dietary needs, allergies, or other requirements? (Optional)"></textarea>
+          </div>
+          <div style="background:#fffbeb;border:1px solid #fef3c7;border-left:4px solid #f59e0b;padding:12px 16px;border-radius:var(--radius-sm);margin-bottom:18px;font-size:12px;color:#92400e;">
+            <i class="fa fa-info-circle"></i>
+            <strong>By submitting:</strong> You confirm you truly need this food and will arrange pickup/delivery per the donor's availability.
+          </div>
+          <button type="submit" class="btn-submit">
+            <i class="fa fa-check"></i> Submit Claim Request
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="env.js"></script>
+  <script src="js/common-utils.js"></script>
+  <script src="js/dashboard.js"></script>
+
+  <script>
+    function switchRole(role) {
+      const donor    = document.getElementById('donorSection');
+      const receiver = document.getElementById('receiverSection');
+      const donorBtn    = document.getElementById('donorBtn');
+      const receiverBtn = document.getElementById('receiverBtn');
+      if (role === 'donor') {
+        donor.classList.remove('hidden');
+        receiver.classList.add('hidden');
+        donorBtn.classList.add('active');
+        receiverBtn.classList.remove('active');
+      } else {
+        donor.classList.add('hidden');
+        receiver.classList.remove('hidden');
+        receiverBtn.classList.add('active');
+        donorBtn.classList.remove('active');
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,351 @@
+/* ============================================================
+   ANNASETU – Login / Register CSS (Tactile Professional Design)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg:        #f5f7fa;
+  --surface:   #ffffff;
+  --border:    #e2e8f0;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --primary:   #2e7d32;
+  --primary-lt:#43a047;
+  --primary-bg:#e8f5e9;
+  --accent:    #4caf50;
+  --danger:    #e53935;
+  --danger-bg: #ffebee;
+  --text:      #1a202c;
+  --text-muted:#718096;
+  --text-light:#a0aec0;
+  --white:     #ffffff;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Two-panel layout ──────────────────────────────────────── */
+.container { display: flex; min-height: 100vh; }
+
+/* Left panel */
+.left-panel {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 60px 48px;
+  overflow: hidden;
+  color: var(--white);
+}
+
+.left-panel-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  filter: brightness(0.5);
+}
+
+.left-panel-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(27,94,32,0.75) 0%, rgba(0,0,0,0.5) 100%);
+  z-index: 2;
+}
+
+.left-panel h1 {
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  z-index: 3;
+  position: relative;
+  margin-bottom: 14px;
+}
+
+.left-panel p {
+  font-size: 16px;
+  max-width: 380px;
+  line-height: 1.65;
+  opacity: 0.92;
+  z-index: 3;
+  position: relative;
+}
+
+.left-panel-badge {
+  z-index: 3;
+  position: relative;
+  margin-top: 32px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.badge-item {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Right panel */
+.right-panel {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg);
+  padding: 48px 36px;
+}
+
+.login-box,
+.register-box {
+  width: 100%;
+  max-width: 380px;
+  background: var(--surface);
+  padding: 36px 32px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-box::before,
+.register-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+}
+
+.login-box h2,
+.register-box h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+  letter-spacing: -0.3px;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+/* Input fields with tactile inset */
+.input-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: #f8fafc;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.02);
+  transition: all 0.2s ease;
+}
+
+.input-field:focus-within {
+  border-color: var(--primary);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.12);
+}
+
+.input-field i {
+  color: var(--text-muted);
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.input-field input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text);
+}
+
+.input-field input::placeholder { color: var(--text-muted); }
+
+/* Buttons */
+.login-btn,
+.register-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(46, 125, 50, 0.25);
+  transition: all 0.2s ease;
+  margin-bottom: 14px;
+}
+
+.login-btn:hover,
+.register-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(46, 125, 50, 0.4);
+}
+
+/* Dividers */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.divider-small {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+  margin: 12px 0;
+}
+
+/* Google button */
+.google-btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 14px;
+  background: #ffffff;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+  margin-bottom: 6px;
+}
+
+.google-btn-primary:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+.google-icon { width: 18px; height: 18px; flex-shrink: 0; }
+
+/* Email login section */
+.email-login {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.email-login-label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+/* Links */
+.links {
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.8;
+  text-align: center;
+}
+
+.links a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 700;
+}
+.links a:hover { text-decoration: underline; }
+
+/* Verification Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: var(--surface);
+  padding: 26px;
+  border-radius: var(--radius-md);
+  width: 92%;
+  max-width: 420px;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.15);
+  border: 1px solid var(--border);
+}
+
+.modal-content h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.modal-content p {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container { flex-direction: column; }
+  .left-panel { min-height: 240px; padding: 36px 24px; }
+  .left-panel h1 { font-size: 28px; }
+  .right-panel { padding: 32px 20px; }
+  .login-box, .register-box { padding: 26px 20px; }
+}

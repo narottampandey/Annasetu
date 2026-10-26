@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Annasetu – Reduce Food Waste, Feed Communities</title>
+  <meta name="description" content="Annasetu connects surplus food with people in need, cattle farms, and fertilizer centers. Join the food waste reduction movement." />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <header class="navbar">
+    <div class="logo">
+      <a href="index.html">अन्न-<span style="color:var(--accent);">Setu</span></a>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="login.html" id="navLoginLink">Login</a>
+      <a href="register.html" id="navRegisterLink">Register</a>
+    </nav>
+  </header>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="image-slider">
+      <div class="slider-container">
+        <img src="foodimages/main.jpg" alt="Food sharing community" class="slider-image active" />
+      </div>
+      <div class="slider-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <h1 id="heroTitle">Reduce Food Waste</h1>
+      <p>Connect leftover food with people, cattle farms, and fertilizer centers. Together we build a sustainable community.</p>
+      <div class="buttons">
+        <a href="register.html" class="btn" id="heroGetStarted">Get Started</a>
+        <a href="login.html" class="btn-outline" id="heroLogin">Login</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FEATURES ── -->
+  <section class="features">
+    <h2>Platform Features</h2>
+    <div class="feature-container">
+      <div class="feature-card">
+        <div class="icon"><i class="fa fa-hand-holding-heart"></i></div>
+        <h3>Food Donation</h3>
+        <p>Houses, hostels, mess halls and marriage venues can donate surplus food easily.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon"><i class="fa fa-users"></i></div>
+        <h3>Human Support</h3>
+        <p>NGOs and individuals can collect food for people in need across the community.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon"><i class="fa fa-cow"></i></div>
+        <h3>Cattle Feed</h3>
+        <p>Food not suitable for humans is repurposed as nutritious cattle feed.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon"><i class="fa fa-seedling"></i></div>
+        <h3>Organic Fertilizer</h3>
+        <p>Food waste is transformed into organic fertilizer for sustainable farming.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon"><i class="fa fa-robot"></i></div>
+        <h3>AI Classification</h3>
+        <p>AI automatically categorizes food quality for the most appropriate usage.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ── -->
+  <section class="about">
+    <h2>About Annasetu</h2>
+    <p>
+      Annasetu ("Anna" = food, "Setu" = bridge) is a platform dedicated to reducing food waste by bridging the gap
+      between food surplus and food need. Every meal saved is a step toward a more equitable and sustainable world.
+    </p>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <p>© 2026 अन्न-Setu &nbsp;·&nbsp; Built with ❤️ to end food waste</p>
+  </footer>
+
+  <script src="env.js"></script>
+  <script>
+    function clearAuthSession() {
+      try {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+      } catch (e) {}
+    }
+
+    function setLoggedInUi(userName) {
+      const navLogin    = document.getElementById('navLoginLink');
+      const navRegister = document.getElementById('navRegisterLink');
+      const heroStart   = document.getElementById('heroGetStarted');
+      const heroLogin   = document.getElementById('heroLogin');
+      const heroTitle   = document.getElementById('heroTitle');
+
+      if (navLogin)    { navLogin.textContent = 'Dashboard'; navLogin.href = 'dashboard.html'; }
+      if (navRegister) {
+        navRegister.textContent = 'Logout';
+        navRegister.href = '#';
+        navRegister.addEventListener('click', e => { e.preventDefault(); clearAuthSession(); window.location.reload(); });
+      }
+      if (heroStart) { heroStart.textContent = 'Go to Dashboard'; heroStart.href = 'dashboard.html'; }
+      if (heroLogin) {
+        heroLogin.textContent = 'Logout';
+        heroLogin.href = '#';
+        heroLogin.addEventListener('click', e => { e.preventDefault(); clearAuthSession(); window.location.reload(); });
+      }
+      if (heroTitle && userName) heroTitle.textContent = `Welcome back, ${userName}`;
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+      const url = window.apiUrl ? window.apiUrl('/api/auth/user-stats') : '/api/auth/user-stats';
+      try {
+        const resp = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+        if (!resp.ok) { clearAuthSession(); return; }
+        const data = await resp.json();
+        if (data && data.user) {
+          localStorage.setItem('user', JSON.stringify(data.user));
+          setLoggedInUi(data.user.name);
+        }
+      } catch (err) {
+        console.warn('Token validation failed:', err);
+      }
+    });
+  </script>
+</body>
+</html>

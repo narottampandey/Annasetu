@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Requests - Annasetu</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/manage-requests.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body>
+    <div class="manage-requests-container">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <h2 class="logo">अन्न-𝙎𝙚𝙩𝙪</h2>
+            <nav>
+                <a href="dashboard.html" class="nav-link"><i class="fa fa-home"></i> Dashboard</a>
+                <a href="addfood.html" class="nav-link"><i class="fa fa-plus-circle"></i> Add Food</a>
+                <a href="browse.html" class="nav-link"><span class="material-symbols-outlined">food_bank</span> Browse
+                    Food</a>
+                <a href="manage-requests.html" class="nav-link active"><i class="fa fa-tasks"></i> Manage Requests</a>
+                <a href="myclaims.html" class="nav-link"><i class="fa fa-inbox"></i> My Claims</a>
+                <a href="notifications.html" class="nav-link"><i class="fa fa-bell"></i> Notifications</a>
+                <a href="profile.html" class="nav-link"><i class="fa fa-user"></i> Profile</a>
+                <a href="index.html" class="nav-link logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- HEADER -->
+            <div class="header">
+                <h1>Manage Claim Requests</h1>
+                <p class="subtitle">Review and manage all incoming requests from food claimants</p>
+            </div>
+
+            <!-- FILTER TABS -->
+            <div class="filter-tabs">
+                <button class="filter-btn active" onclick="filterRequests('all')">
+                    All Requests
+                </button>
+                <button class="filter-btn" onclick="filterRequests('pending')">
+                    Pending
+                </button>
+                <button class="filter-btn" onclick="filterRequests('accepted')">
+                    Accepted
+                </button>
+                <button class="filter-btn" onclick="filterRequests('rejected')">
+                    Rejected
+                </button>
+            </div>
+
+            <!-- STATS CARDS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #e3f2fd;">
+                        <i class="fa fa-list-ul" style="font-size: 24px; color: #1976d2;"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="totalRequests">0</h3>
+                        <p>Total Requests</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #fff3e0;">
+                        <i class="fa fa-clock" style="font-size: 24px; color: #f57c00;"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="pendingRequests">0</h3>
+                        <p>Pending</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #e8f5e9;">
+                        <i class="fa fa-check" style="font-size: 24px; color: #388e3c;"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="acceptedRequests">0</h3>
+                        <p>Accepted</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #ffebee;">
+                        <i class="fa fa-ban" style="font-size: 24px; color: #c62828;"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="rejectedRequests">0</h3>
+                        <p>Rejected</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REQUESTS LIST -->
+            <div class="requests-section">
+                <div class="section-header">
+                    <h2>Requests Overview</h2>
+                    <div class="search-box">
+                        <input type="text" id="searchRequests" placeholder="Search by food, person, or location...">
+                    </div>
+                </div>
+
+                <!-- LOADING STATE -->
+                <div id="loadingState" class="loading-state hidden">
+                    <div class="spinner"></div>
+                    <p>Loading requests...</p>
+                </div>
+
+                <!-- EMPTY STATE -->
+                <div id="emptyState" class="empty-state hidden">
+                    <p>No requests yet</p>
+                    <small>When someone claims your food, their request will appear here</small>
+                </div>
+
+                <!-- REQUESTS CONTAINER -->
+                <div id="requestsContainer" class="requests-grid">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- REQUEST DETAILS MODAL -->
+    <div id="requestDetailsModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Request Details</h2>
+                <button class="close-btn" onclick="closeRequestModal()">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div id="requestDetailsContent">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+
+                <div id="actionButtons" class="modal-actions">
+                    <!-- Will be populated based on request status -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="env.js"></script>
+    <script src="js/common-utils.js"></script>
+    <script src="js/manage-requests.js"></script>

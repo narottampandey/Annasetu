@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Claims | Annasetu</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/myclaims.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body>
+    <div class="dashboard">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <h2 class="logo">अन्न-𝙎𝙚𝙩𝙪</h2>
+            <nav>
+                <a href="dashboard.html" class="nav-link"><i class="fa fa-home"></i> Dashboard</a>
+                <a href="addfood.html" class="nav-link"><i class="fa fa-plus-circle"></i> Add Food</a>
+                <a href="browse.html" class="nav-link"><span class="material-symbols-outlined">food_bank</span> Browse
+                    Food</a>
+                <a href="manage-requests.html" class="nav-link"><i class="fa fa-tasks"></i> Manage Requests</a>
+                <a href="myclaims.html" class="nav-link active"><i class="fa fa-inbox"></i> My Claims</a>
+                <a href="notifications.html" class="nav-link"><i class="fa fa-bell"></i> Notifications</a>
+                <a href="profile.html" class="nav-link"><i class="fa fa-user"></i> Profile</a>
+                <a href="#" class="nav-link logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="header">
+                <h1>My Claims</h1>
+                <p class="subtitle">Track the requests you've made and their current status</p>
+            </div>
+
+            <!-- STATS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #e3f2fd;">
+                        <i class="fa fa-list-ul" style="color: #1976d2;"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="totalClaimsCount">0</h3>
+                        <p>Total Claims</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #fff3e0;">
+                        <i class="fa fa-clock" style="color: #f57c00;"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="pendingClaimsCount">0</h3>
+                        <p>Pending</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #e8f5e9;">
+                        <i class="fa fa-check" style="color: #388e3c;"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="acceptedClaimsCount">0</h3>
+                        <p>Accepted</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #ede7f6;">
+                        <i class="fa fa-flag-checkered" style="color: #5e35b1;"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="completedClaimsCount">0</h3>
+                        <p>Completed</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="claims-section">
+                <div class="section-header">
+                    <h2>Claims Overview</h2>
+                    <div class="search-box">
+                        <i class="fa fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search by food name, donor, or location...">
+                    </div>
+                    <div class="filter-box">
+                        <i class="fa fa-filter"></i>
+                        <select id="statusFilter" class="filter-select">
+                            <option value="">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="accepted">Accepted</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- LOADING STATE -->
+                <div id="loadingState" class="loading-state" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Loading your claims...</p>
+                </div>
+
+                <!-- CLAIMS CONTAINER -->
+                <div id="claimsContainer" class="claims-container">
+                    <!-- Populated by JavaScript -->
+                </div>
+
+                <!-- EMPTY STATE -->
+                <div id="emptyState" class="empty-state" style="display: none;">
+                    <i class="fa fa-inbox"></i>
+                    <h3>No Claims Yet</h3>
+                    <p>You haven't claimed any food donations yet.</p>
+                    <p><a href="browse.html">Browse available food</a> to make your first claim!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RATING MODAL -->
+    <div id="ratingModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Rate This Donation</h2>
+                <button class="close-btn" onclick="closeRatingModal()">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div id="donationInfo" class="donation-info-box"></div>
+
+                <form id="ratingForm">
+                    <div class="form-group">
+                        <label>Quality Rating:</label>
+                        <div class="star-rating">
+                            <i class="far fa-star" data-value="1"></i>
+                            <i class="far fa-star" data-value="2"></i>
+                            <i class="far fa-star" data-value="3"></i>
+                            <i class="far fa-star" data-value="4"></i>
+                            <i class="far fa-star" data-value="5"></i>
+                        </div>
+                        <input type="hidden" id="ratingScore" value="0" required>
+                        <span id="ratingText"
+                            style="font-size: 12px; color: #999; margin-top: 8px; display: block;"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="foodQualitySelect">How was the food quality?</label>
+                        <select id="foodQualitySelect" class="styled-select">
+                            <option value="">Not specified</option>
+                            <option value="Excellent">Excellent</option>
+                            <option value="Good">Good</option>
+                            <option value="Average">Average</option>
+                            <option value="Poor">Poor</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="packagingQualitySelect">How was the packaging?</label>
+                        <select id="packagingQualitySelect" class="styled-select">
+                            <option value="">Not specified</option>
+                            <option value="Excellent">Excellent</option>
+                            <option value="Good">Good</option>
+                            <option value="Average">Average</option>
+                            <option value="Poor">Poor</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reviewText">Review (Optional):</label>
+                        <textarea id="reviewText" class="review-input" rows="4"
+                            placeholder="Share your experience..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Submit Rating</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- DETAIL MODAL -->
+    <div id="detailModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Claim Details</h2>
+                <button class="close-btn" onclick="closeDetailModal()">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div id="claimDetailContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="env.js"></script>
+    <script src="js/common-utils.js"></script>
+    <script src="js/myclaims.js"></script>
+</body>
+
+</html>

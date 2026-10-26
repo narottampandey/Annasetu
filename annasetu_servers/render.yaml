@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: annasetu-backend
+    env: node
+    branch: main
+    buildCommand: "npm install"
+    startCommand: "npm start"
+    autoDeploy: true
+    plan: free
+    envVars:
+      - key: MONGODB_URI
+        value: "<YOUR_MONGODB_URI>"
+      - key: JWT_SECRET
+        value: "<YOUR_JWT_SECRET>"
+      - key: SERVE_STATIC
+        value: "false"
+      - key: ALLOWED_ORIGINS
+        value: "https://your-frontend.vercel.app"

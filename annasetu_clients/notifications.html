@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - Annasetu</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        .notifications-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4px 0 32px;
+        }
+
+        .notifications-header {
+            background: var(--surface);
+            padding: 22px 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .notifications-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .notifications-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0 0 4px;
+            letter-spacing: -0.3px;
+        }
+
+        .notifications-header p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .notification-item {
+            background: #ffffff;
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            margin-bottom: 14px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .notification-item::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--primary), var(--accent));
+        }
+
+        .notification-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.07);
+            border-color: #cbd5e1;
+        }
+
+        .notification-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-sm);
+            background: var(--primary-bg);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-content h3 {
+            margin: 0 0 4px 0;
+            color: var(--text);
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .notification-content h4 {
+            margin: 0 0 6px 0;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .notification-content p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .notification-time {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 8px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .notification-close {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-muted);
+            margin-left: 12px;
+            align-self: flex-start;
+            transition: all 0.15s ease;
+        }
+
+        .notification-close:hover {
+            background: var(--danger-bg);
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 56px 20px;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            color: var(--primary);
+            opacity: 0.7;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .empty-state h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .empty-state p {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2 class="logo">अन्न-𝙎𝙚𝙩𝙪</h2>
+
+            <nav>
+                <a href="dashboard.html" class="nav-link"><i class="fa fa-home"></i> Dashboard</a>
+                <a href="addfood.html" class="nav-link"><i class="fa fa-plus-circle"></i> Add Food</a>
+                <a href="browse.html" class="nav-link"><span class="material-symbols-outlined">food_bank</span> Browse
+                    Food</a>
+                <a href="manage-requests.html" class="nav-link"><i class="fa fa-tasks"></i> Manage Requests</a>
+                <a href="myclaims.html" class="nav-link"><i class="fa fa-inbox"></i> My Claims</a>
+                <a href="notifications.html" class="nav-link active" id="notificationBellLink">
+                    <span style="position:relative;display:inline-block;">
+                        <i class="fa fa-bell"></i>
+                        <span id="notificationBadge"
+                            style="display:none;position:absolute;top:-8px;right:-8px;background:#d32f2f;color:#fff;border-radius:50%;padding:2px 7px;font-size:12px;font-weight:bold;z-index:2;">0</span>
+                    </span>
+                    Notifications
+                </a>
+                <a href="profile.html" class="nav-link"><i class="fa fa-user"></i> Profile</a>
+                <a href="#" class="nav-link logout">
+                    <i class="fa fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="notifications-container">
+                <div class="notifications-header">
+                    <h1><i class="fas fa-bell"></i> Notifications</h1>
+                    <p>You're all caught up!</p>
+                </div>
+
+                <div id="notificationsContainer">
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>No notifications yet</p>
+                        <p style="font-size: 13px; margin-top: 10px;">You'll receive notifications here about your
+                            donations and requests</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Socket.io client from CDN -->
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="env.js"></script>
+    <script src="js/common-utils.js"></script>
+    <script src="js/notifications.js"></script>
+</body>
+
+</html>

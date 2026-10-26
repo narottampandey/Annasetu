@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>API Test</title>
+</head>
+
+<body>
+    <h1>API Connection Test</h1>
+    <button onclick="testRegister()">Test Register API</button>
+    <button onclick="testLogin()">Test Login API</button>
+    <div id="result"></div>
+
+    <script src="env.js"></script>
+    <script>
+        async function testRegister() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Testing register API...</p>';
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: 'Test User',
+                        email: 'test@example.com',
+                        phone: '9876543210',
+                        password: 'password123'
+                    })
+                });
+
+                const data = await response.json();
+                resultDiv.innerHTML += '<p>Status: ' + response.status + '</p>';
+                resultDiv.innerHTML += '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                resultDiv.innerHTML += '<p style="color:red;">Error: ' + error.message + '</p>';
+            }
+        }
+
+        async function testLogin() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Testing login API...</p>';
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: 'test@example.com',
+                        password: 'password123'
+                    })
+                });
+
+                const data = await response.json();
+                resultDiv.innerHTML += '<p>Status: ' + response.status + '</p>';
+                resultDiv.innerHTML += '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                resultDiv.innerHTML += '<p style="color:red;">Error: ' + error.message + '</p>';
+            }
+        }
+    </script>
+</body>
+
+</html>
+
+<!-- 
+Description	Result
+"Fresh cooked rice made today, clean"	85% Human ✅
+"2-day old vegetables with slight brown spots"	40% Animal, 40% Fertilizer
+"Old moldy bread, completely rotten"	85% Fertilizer ⚠️
+"Fresh produce, just from market"	75% Human ✅
+"Vegetables that are 4 days old, slightly soft"	40% Animal -->

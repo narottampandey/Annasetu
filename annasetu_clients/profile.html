@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Annasetu</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2 class="logo">अन्न-𝙎𝙚𝙩𝙪</h2>
+
+            <nav>
+                <a href="dashboard.html" class="nav-link"><i class="fa fa-home"></i> Dashboard</a>
+                <a href="addfood.html" class="nav-link"><i class="fa fa-plus-circle"></i> Add Food</a>
+                <a href="browse.html" class="nav-link"><span class="material-symbols-outlined">food_bank</span> Browse
+                    Food</a>
+                <a href="manage-requests.html" class="nav-link"><i class="fa fa-tasks"></i> Manage Requests</a>
+                <a href="myclaims.html" class="nav-link"><i class="fa fa-inbox"></i> My Claims</a>
+                <a href="notifications.html" class="nav-link"><i class="fa fa-bell"></i> Notifications</a>
+                <a href="profile.html" class="nav-link active"><i class="fa fa-user"></i> Profile</a>
+                <a href="#" class="nav-link logout">
+                    <i class="fa fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="profile-container">
+                <!-- Profile Header -->
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <img id="profileImage" src="images/default-avatar.svg" alt="Profile Picture" />
+                    </div>
+                    <div class="profile-info">
+                        <h1 id="userName">Loading...</h1>
+                        <p id="userEmail" class="user-email">email@example.com</p>
+                        <p id="joinDate" class="join-date">Joined recently</p>
+                    </div>
+                </div>
+
+                <!-- Stats Section -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-content">
+                            <div class="stat-number" id="donationsMade">0</div>
+                            <div class="stat-label">Donations Made</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-content">
+                            <div class="stat-number" id="donationsReceived">0</div>
+                            <div class="stat-label">Donations Received</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-content">
+                            <div class="stat-number" id="rating">4.5</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Sections -->
+                <div class="profile-sections">
+                    <!-- Personal Information -->
+                    <div class="profile-section">
+                        <div class="section-header">
+                            <h2>Personal Information</h2>
+                            <button class="edit-btn" id="editInfoBtn">
+                                Edit
+                            </button>
+                        </div>
+
+                        <div id="viewMode" class="view-mode">
+                            <div class="info-item">
+                                <label>Full Name</label>
+                                <p id="displayName">-</p>
+                            </div>
+                            <div class="info-item">
+                                <label>Email</label>
+                                <p id="displayEmail">-</p>
+                            </div>
+                            <div class="info-item">
+                                <label>Phone</label>
+                                <p id="displayPhone">-</p>
+                            </div>
+                            <div class="info-item">
+                                <label>Location</label>
+                                <p id="displayLocation">Not provided</p>
+                            </div>
+                        </div>
+
+                        <div id="editMode" class="edit-mode" style="display: none;">
+                            <form id="editProfileForm">
+                                <div class="form-group">
+                                    <label for="editName">Full Name</label>
+                                    <input type="text" id="editName" placeholder="Your name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editPhone">Phone</label>
+                                    <input type="tel" id="editPhone" placeholder="Your phone number">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editLocation">Location</label>
+                                    <input type="text" id="editLocation" placeholder="Your location">
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn-save">
+                                        <i class="fa fa-check"></i> Save Changes
+                                    </button>
+                                    <button type="button" class="btn-cancel" id="cancelEditBtn">
+                                        <i class="fa fa-times"></i> Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Security Settings -->
+                    <div class="profile-section">
+                        <div class="section-header">
+                            <h2>Security & Settings</h2>
+                        </div>
+                        <div class="settings-list">
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h3>Change Password</h3>
+                                    <p>Update your password regularly for better security</p>
+                                </div>
+                                <button class="btn-secondary" id="changePasswordBtn">
+                                    <i class="fa fa-key"></i> Change
+                                </button>
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h3>Email Notifications</h3>
+                                    <p>Receive updates about your donations</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="emailNotifications" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <!-- Two-Factor Authentication removed -->
+
+                        </div>
+                    </div>
+
+                    <!-- Account Management -->
+                    <div class="profile-section danger-zone">
+                        <div class="section-header">
+                            <h2>Account Management</h2>
+                        </div>
+                        <div class="danger-actions">
+                            <button class="btn-danger" id="deleteAccountBtn">
+                                <i class="fa fa-trash"></i> Delete Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Change Password</h2>
+                <button class="close-btn" id="closePasswordModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="passwordForm">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" placeholder="Enter current password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" placeholder="Enter new password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" placeholder="Confirm new password" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-save">Update Password</button>
+                        <button type="button" class="btn-cancel" id="cancelPasswordBtn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="env.js"></script>
+    <script src="js/common-utils.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+
+</html>

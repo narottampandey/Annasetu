@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browse Food | Annasetu</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/browse.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <!-- Leaflet.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+    <style>
+        #foodDonationsMap {
+            height: 400px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            z-index: 1;
+        }
+
+        .map-toggle-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .map-toggle-btn:hover {
+            background: #45a049;
+        }
+
+        .map-container {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <h2 class="logo">अन्न-𝙎𝙚𝙩𝙪</h2>
+            <nav>
+                <a href="dashboard.html" class="nav-link"><i class="fa fa-home"></i> Dashboard</a>
+                <a href="addfood.html" class="nav-link"><i class="fa fa-plus-circle"></i> Add Food</a>
+                <a href="browse.html" class="nav-link active"><span class="material-symbols-outlined">food_bank</span>
+                    Browse Food</a>
+                <a href="manage-requests.html" class="nav-link"><i class="fa fa-tasks"></i> Manage Requests</a>
+                <a href="myclaims.html" class="nav-link"><i class="fa fa-inbox"></i> My Claims</a>
+                <a href="notifications.html" class="nav-link"><i class="fa fa-bell"></i> Notifications</a>
+                <a href="profile.html" class="nav-link"><i class="fa fa-user"></i> Profile</a>
+                <a href="#" class="nav-link logout">
+                    <i class="fa fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </div>
+
+        <!-- MAIN -->
+        <div class="main-content">
+            <!-- HEADER -->
+            <div class="header">
+                <h2 id="pageTitle">Browse Available Food</h2>
+            </div>
+
+            <!-- FILTERS & SEARCH -->
+            <div class="filters-section">
+                <div class="filters-header">
+                    <div class="search-box">
+                        <i class="fa fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search by food name or location...">
+                    </div>
+                    <button class="filter-toggle-btn" id="filterToggleBtn" type="button" aria-expanded="false">
+                        <i class="fa fa-sliders"></i>
+                        Filters
+                    </button>
+                </div>
+
+                <div class="location-filters collapsed" id="locationFilters">
+                    <div class="location-filter-mode">
+                        <span>Show food by:</span>
+                        <label>
+                            <input type="radio" name="locationMode" value="nearby" checked>
+                            Nearby distance
+                        </label>
+                        <label>
+                            <input type="radio" name="locationMode" value="city">
+                            Town/City
+                        </label>
+                    </div>
+
+                    <div class="location-filter-item" id="distanceFilterWrap">
+                        <label for="distanceFilter">Distance</label>
+                        <select id="distanceFilter">
+                            <option value="2">Less than 2 km</option>
+                            <option value="5">Less than 5 km</option>
+                            <option value="8">Less than 8 km</option>
+                            <option value="10">Less than 10 km</option>
+                            <option value="all">Any distance</option>
+                        </select>
+                    </div>
+                    <div class="location-filter-item hidden" id="cityFilterWrap">
+                        <label for="cityFilter">Town/City</label>
+                        <input type="text" id="cityFilter" list="cityOptions" placeholder="Type town or city">
+                        <datalist id="cityOptions"></datalist>
+                    </div>
+                </div>
+
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">
+                        All
+                    </button>
+                    <button class="filter-btn" data-filter="Vegetarian">
+                        Vegetarian
+                    </button>
+                    <button class="filter-btn" data-filter="Non-Veg">
+                        Non-Veg
+                    </button>
+                    <button class="filter-btn" data-filter="Vegan">
+                        Vegan
+                    </button>
+                </div>
+            </div>
+
+            <!-- MAP SECTION -->
+            <div class="map-container">
+                <button class="map-toggle-btn" id="mapToggleBtn">Show Map</button>
+                <div id="foodDonationsMap" style="display: none;"></div>
+            </div>
+
+            <!-- LOADING STATE -->
+            <div id="loadingState" class="loading-state" style="display: none;">
+                <div class="spinner"></div>
+                <p>Loading available food...</p>
+            </div>
+
+            <!-- DONATIONS GRID -->
+            <div id="donationsGrid" class="donations-grid">
+                <!-- Populated by JavaScript -->
+            </div>
+
+            <!-- EMPTY STATE -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <i class="fa fa-inbox"></i>
+                <h3>No Food Available</h3>
+                <p>There are no available donations at the moment.</p>
+                <p>Check back later or <a href="addfood.html">donate food</a> yourself!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CLAIM MODAL -->
+    <div id="claimModal" class="modal" style="display: none;">
+        <div class="modal-content"
+            style="max-width: 600px; max-height: 90vh; overflow-y: auto; background: #fafbfc; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.12);">
+            <div class="modal-header"
+                style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                <h2 style="margin: 0; font-size: 1.5rem; color: #388e3c;">Submit Claim Request</h2>
+                <button class="close-btn" onclick="closeModal()"
+                    style="font-size: 2rem; background: none; border: none; color: #888; cursor: pointer;">&times;</button>
+            </div>
+
+            <div class="modal-body" style="padding: 24px 18px 18px 18px;">
+                <div id="claimDetails"
+                    style="margin-bottom: 24px; padding: 16px; background: #f5f7fa; border-radius: 10px; border: 1px solid #e0e0e0;">
+                </div>
+
+                <form id="claimForm" style="display: flex; flex-direction: column; gap: 18px;">
+                    <!-- Purpose -->
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label for="claimPurpose">
+                            <i class="fa fa-target"></i> Purpose of Claim <span style="color: red;">*</span>
+                        </label>
+                        <select id="claimPurpose" name="purpose" required
+                            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: Poppins;">
+                            <option value="">Select purpose...</option>
+                            <option value="Human consumption">Human consumption</option>
+                            <option value="Cattle feeding">Cattle feeding</option>
+                            <option value="Organic compost">Organic compost</option>
+                        </select>
+                    </div>
+
+                    <!-- Number of Beneficiaries -->
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label for="claimBeneficiaries">
+                            <i class="fa fa-users"></i> Number of People Benefiting <span style="color: red;">*</span>
+                        </label>
+                        <input type="number" id="claimBeneficiaries" name="beneficiaries" min="1" max="1000"
+                            placeholder="e.g., 5" required
+                            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+
+                    <!-- Delivery Address -->
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label for="claimAddress">
+                            <i class="fa fa-map-marker"></i> Delivery/Pickup Address <span style="color: red;">*</span>
+                        </label>
+                        <div style="display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-end;">
+                            <textarea id="claimAddress" name="address" rows="2"
+                                placeholder="Enter full address where you'll receive/pickup the food" required
+                                style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: Poppins;"></textarea>
+                            <button type="button" id="claimCurrentLocationBtn" class="btn"
+                                style="padding: 10px 15px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; white-space: nowrap; align-self: flex-end; font-size: 12px; height: fit-content;">
+                                Get Current Location
+                            </button>
+                        </div>
+                        <small id="claimLocationStatus" style="color: #666;"></small>
+                        <!-- Map for claim location -->
+                        <div id="claimLocationMap"
+                            style="height: 250px; margin-top: 10px; border-radius: 8px; display: none; z-index: 1;">
+                        </div>
+                    </div>
+
+                    <!-- Preferred Pickup Time -->
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label for="claimPickupTime">
+                            <i class="fa fa-clock"></i> Preferred Pickup/Delivery Time
+                        </label>
+                        <input type="datetime-local" id="claimPickupTime" name="preferredPickupTime"
+                            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+
+                    <!-- Additional Notes -->
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label for="claimNotes">
+                            <i class="fa fa-sticky-note"></i> Special Requirements/Notes
+                        </label>
+                        <textarea id="claimNotes" name="notes" rows="3"
+                            placeholder="Any special dietary needs, allergies, or other requirements? (Optional)"
+                            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: Poppins;"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit"
+                        style="width: 100%; padding: 12px; background: #4caf50; color: white; border: none; border-radius: 5px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.3s;">
+                        <i class="fa fa-check"></i> Submit Claim Request
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="env.js"></script>
+    <script src="js/common-utils.js"></script>
+    <!-- Leaflet.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <script src="js/browse.js"></script>
+</body>
+
+</html>

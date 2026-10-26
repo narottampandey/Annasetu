@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Donations | Annasetu</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/mydonations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body>
+    <div class="dashboard">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <h2 class="logo">अन्न-𝙎𝙚𝙩𝙪</h2>
+            <nav>
+                <a href="dashboard.html" class="nav-link"><i class="fa fa-home"></i> Dashboard</a>
+                <a href="addfood.html" class="nav-link"><i class="fa fa-plus-circle"></i> Add Food</a>
+                <a href="browse.html" class="nav-link"><span class="material-symbols-outlined">food_bank</span> Browse
+                    Food</a>
+                <a href="manage-requests.html" class="nav-link"><i class="fa fa-tasks"></i> Manage Requests</a>
+                <a href="myclaims.html" class="nav-link"><i class="fa fa-inbox"></i> My Claims</a>
+                <a href="notifications.html" class="nav-link"><i class="fa fa-bell"></i> Notifications</a>
+                <a href="profile.html" class="nav-link"><i class="fa fa-user"></i> Profile</a>
+                <a href="#" class="nav-link logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="header">
+                <h2 class="title">My Donations</h2>
+                <button onclick="location.href='addfood.html'" class="btn">
+                    <i class="fa fa-plus"></i> Add New Donation
+                </button>
+            </div>
+
+            <!-- STATS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Created</h3>
+                    <p id="totalCreated" class="stat-number">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Available</h3>
+                    <p id="availableCount" class="stat-number">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Claimed</h3>
+                    <p id="claimedCount" class="stat-number">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Completed</h3>
+                    <p id="completedCount" class="stat-number">0</p>
+                </div>
+            </div>
+
+            <!-- FILTERS & SEARCH -->
+            <div class="card filters-section">
+                <div class="filter-group">
+                    <input type="text" id="searchInput" placeholder="Search donations..." class="search-input">
+                    <select id="filterStatus" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="Available">Available</option>
+                        <option value="Claimed">Claimed</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- LOADING STATE -->
+            <div id="loadingState" class="loading-state">
+                <div class="spinner"></div>
+                <p>Loading your donations...</p>
+            </div>
+
+            <!-- EMPTY STATE -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <i class="fa fa-inbox"></i>
+                <h3>No donations yet</h3>
+                <p>Start sharing food with your community!</p>
+                <button onclick="location.href='addfood.html'" class="btn btn-primary">
+                    Add Your First Donation
+                </button>
+            </div>
+
+            <!-- DONATIONS LIST -->
+            <div id="donationsContainer" class="donations-container"></div>
+        </div>
+    </div>
+
+    <!-- EDIT DONATION MODAL -->
+    <div id="editModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Update Quantity</h2>
+                <button class="close-btn" onclick="closeEditModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-info-box"
+                    style="background: #e3f2fd; border-left: 4px solid #2196f3; padding: 12px; margin-bottom: 20px; border-radius: 4px; font-size: 13px; color: #1976d2;">
+                    <strong>Note:</strong> You can only change the quantity. Other details cannot be modified once
+                    posted.
+                </div>
+                <form id="editForm">
+                    <div class="form-grid">
+                        <div class="input-wrapper">
+                            <input type="text" id="displayFood" placeholder=" " readonly
+                                style="background: #f5f5f5; color: #666;">
+                            <label for="displayFood">Food Name</label>
+                        </div>
+                        <div class="input-wrapper">
+                            <input type="text" id="displayFoodType" placeholder=" " readonly
+                                style="background: #f5f5f5; color: #666;">
+                            <label for="displayFoodType">Type</label>
+                        </div>
+                        <div class="input-wrapper">
+                            <input type="text" id="displayLocation" placeholder=" " readonly
+                                style="background: #f5f5f5; color: #666;">
+                            <label for="displayLocation">Location</label>
+                        </div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="input-wrapper full-width">
+                            <input type="text" id="editQuantity" placeholder=" " required>
+                            <label for="editQuantity">Quantity <span style="color: #f44336;">*</span></label>
+                            <div class="input-highlight"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Quantity</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- CLAIMS MODAL (View claims for a donation) -->
+    <div id="claimsModal" class="modal" style="display: none;">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Claim Requests</h2>
+                <button class="close-btn" onclick="closeClaimsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="claimsList" class="claims-list"></div>
+                <div id="noClaimsMessage" class="empty-state" style="display: none; padding: 30px;">
+                    <i class="fa fa-inbox"></i>
+                    <p>No claims yet</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="env.js"></script>
+    <script src="js/common-utils.js"></script>
+    <script src="js/mydonations.js"></script>
+</body>
+
+</html>

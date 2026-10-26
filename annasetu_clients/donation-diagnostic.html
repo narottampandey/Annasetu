@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Diagnostic Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #2e7d32;
+            margin-bottom: 20px;
+        }
+
+        .test-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .test-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+            border-bottom: 2px solid #2e7d32;
+            padding-bottom: 10px;
+        }
+
+        .info-box {
+            background: #f0f4f8;
+            border-left: 4px solid #2e7d32;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .info-box.warning {
+            background: #fff3cd;
+            border-left-color: #ff9800;
+        }
+
+        .info-box.error {
+            background: #f8d7da;
+            border-left-color: #f44336;
+        }
+
+        .info-box.success {
+            background: #d4edda;
+            border-left-color: #2e7d32;
+        }
+
+        button {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px 5px 5px 0;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #1b5e20;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .result-output {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 12px;
+            margin-top: 10px;
+            font-size: 13px;
+            font-family: 'Courier New', monospace;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .status-indicator.success {
+            background: #2e7d32;
+        }
+
+        .status-indicator.error {
+            background: #f44336;
+        }
+
+        .status-indicator.warning {
+            background: #ff9800;
+        }
+
+        .status-indicator.pending {
+            background: #9e9e9e;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #f5f5f5;
+            font-weight: 600;
+            color: #333;
+        }
+
+        tr:hover {
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔧 Donation Diagnostic Tool</h1>
+        <div class="info-box warning">
+            <strong>⚠️ Important:</strong> Keep this browser open. Do NOT navigate away. Results will be shown below as
+            tests run.
+        </div>
+
+        <!-- Step 1: Check Backend Connectivity -->
+        <div class="test-section">
+            <h2>Step 1: Check Backend Status</h2>
+            <p>Verify the server is running and accessible.</p>
+            <button onclick="testBackendConnection()">Test Backend Connection</button>
+            <div id="step1-result" class="result-output" style="display:none;"></div>
+        </div>
+
+        <!-- Step 2: Check Authentication -->
+        <div class="test-section">
+            <h2>Step 2: Check Your User Session</h2>
+            <p>Verify you're logged in and have a valid token.</p>
+            <button onclick="checkUserSession()">Check User Session</button>
+            <div id="step2-result" class="result-output" style="display:none;"></div>
+        </div>
+
+        <!-- Step 3: Get Current Donations in Database -->
+        <div class="test-section">
+            <h2>Step 3: View All Donations in Database</h2>
+            <p>Check what donations currently exist in MongoDB (debug endpoint).</p>
+            <button onclick="getAllDonationsDebug()">Get All Donations from DB</button>
+            <div id="step3-result" class="result-output" style="display:none;"></div>
+        </div>
+
+        <!-- Step 4: Test Browse API -->
+        <div class="test-section">
+            <h2>Step 4: Test Browse API (/api/donations/available)</h2>
+            <p>Call the same API that browse.html uses to fetch donations.</p>
+            <button onclick="testBrowseAPI()">Call Browse API</button>
+            <div id="step4-result" class="result-output" style="display:none;"></div>
+        </div>
+
+        <!-- Step 5: Test Create Donation -->
+        <div class="test-section">
+            <h2>Step 5: Create Test Donation</h2>
+            <p>Create a sample donation to test if the add food feature works.</p>
+            <button onclick="createTestDonation()">Create Test Donation</button>
+            <button onclick="createTestDonation2()">Create Test Donation #2 (Different User)</button>
+            <div id="step5-result" class="result-output" style="display:none;"></div>
+        </div>
+
+        <!-- Step 6: Summary & Recommendations -->
+        <div class="test-section">
+            <h2>📋 Summary & Next Steps</h2>
+            <button onclick="runFullDiagnostic()">Run Full Diagnostic</button>
+            <button onclick="clearResults()">Clear All Results</button>
+            <div id="summary-result" class="result-output" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script src="env.js"></script>
+    <script>
+        const API_URL = String(window.__API_PREFIX__ || window.API_BASE || '').trim();
+        const results = {};
+
+        function showResult(elementId, content, type = 'info') {
+            const el = document.getElementById(elementId);
+            el.textContent = content;
+            el.style.display = 'block';
+            el.className = `result-output ${type}`;
+        }
+
+        function getToken() {
+            return localStorage.getItem('token');
+        }
+
+        function getUser() {
+            return JSON.parse(localStorage.getItem('user') || 'null');
+        }
+
+        async function testBackendConnection() {
+            const resultEl = document.getElementById('step1-result');
+            resultEl.style.display = 'block';
+            resultEl.textContent = 'Testing connection...';
+
+            try {
+                const response = await fetch(`${API_URL}/api/donations/available`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`,
+                    }
+                });
+
+                if (response.ok || response.status === 401) {
+                    showResult('step1-result',
+                        `✅ Backend is RUNNING\n\nServer URL: ${API_URL}\nStatus: ${response.status}\n\nThe server is accessible and responding.`,
+                        'success'
+                    );
+                    results.backendOK = true;
+                } else {
+                    showResult('step1-result',
+                        `❌ Backend returned error\nStatus: ${response.status}\n\nServer is running but returned an unexpected status.`,
+                        'error'
+                    );
+                    results.backendOK = false;
+                }
+            } catch (error) {
+                showResult('step1-result',
+                    `❌ BACKEND NOT RUNNING\n\nError: ${error.message}\n\nPlease start the backend server:\ncd annasetu_servers\nnpm start`,
+                    'error'
+                );
+                results.backendOK = false;
+            }
+        }
+
+        function checkUserSession() {
+            const user = getUser();
+            const token = getToken();
+
+            let output = `User Session Check:\n\n`;
+
+            if (!token) {
+                output += `❌ NO TOKEN FOUND\n\nYou must be logged in first.\n\nGo to login.html and log in.`;
+                showResult('step2-result', output, 'error');
+                results.userOK = false;
+                return;
+            }
+
+            if (!user) {
+                output += `❌ NO USER DATA FOUND\n\nToken exists but user data is missing.\n\nPlease log in again.`;
+                showResult('step2-result', output, 'error');
+                results.userOK = false;
+                return;
+            }
+
+            output += `✅ LOGGED IN\n\n`;
+            output += `User: ${user.name}\n`;
+            output += `Email: ${user.email}\n`;
+            output += `User ID: ${user._id || user.id}\n`;
+            output += `Token: ${token.substring(0, 20)}...${token.substring(token.length - 20)}\n\n`;
+            output += `Status: Ready to test donations`;
+
+            showResult('step2-result', output, 'success');
+            results.userOK = true;
+        }
+
+        async function getAllDonationsDebug() {
+            const resultEl = document.getElementById('step3-result');
+            resultEl.style.display = 'block';
+            resultEl.textContent = 'Fetching debug data...';
+
+            try {
+                const response = await fetch(`${API_URL}/api/donations/debug/all-with-users`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.donations && data.donations.length > 0) {
+                    let output = `✅ Found ${data.donations.length} Total Donations in Database\n\n`;
+
+                    data.donations.forEach((donation, index) => {
+                        output += `Donation #${index + 1}:\n`;
+                        output += `  ID: ${donation._id}\n`;
+                        output += `  Food: ${donation.food}\n`;
+                        output += `  Status: ${donation.status}\n`;
+                        output += `  User: ${donation.userId?.name || donation.userId} (${donation.userId?.email})\n`;
+                        output += `  Created: ${new Date(donation.createdAt).toLocaleString()}\n\n`;
+                    });
+
+                    showResult('step3-result', output, 'success');
+                    results.donationsExist = data.donations.length > 0;
+                    results.donations = data.donations;
+                } else {
+                    showResult('step3-result',
+                        `⚠️ NO DONATIONS IN DATABASE\n\nThe donations collection is empty.\n\nNext Step: Create a test donation using Step 5.`,
+                        'warning'
+                    );
+                    results.donationsExist = false;
+                }
+            } catch (error) {
+                showResult('step3-result',
+                    `❌ Error fetching debug data\n\n${error.message}`,
+                    'error'
+                );
+            }
+        }
+
+        async function testBrowseAPI() {
+            const resultEl = document.getElementById('step4-result');
+            resultEl.style.display = 'block';
+            resultEl.textContent = 'Calling /api/donations/available...';
+
+            try {
+                const response = await fetch(`${API_URL}/api/donations/available`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.donations && data.donations.length > 0) {
+                    let output = `✅ Browse API returned ${data.donations.length} donations\n\n`;
+
+                    data.donations.forEach((donation, index) => {
+                        output += `Donation #${index + 1}:\n`;
+                        output += `  Food: ${donation.food}\n`;
+                        output += `  Status: ${donation.status}\n`;
+                        output += `  User: ${donation.userId?.name} (${donation.userId?.email})\n`;
+                        output += `  Location: ${donation.location}\n\n`;
+                    });
+
+                    showResult('step4-result', output, 'success');
+                    results.browseAPIWorks = true;
+                } else {
+                    let output = `⚠️ Browse API returned NO donations\n\n`;
+                    output += `This could mean:\n`;
+                    output += `1. No donations exist with status="Available"\n`;
+                    output += `2. All existing donations belong to the current user\n`;
+                    output += `3. Donations are in database but not matching the filter\n\n`;
+                    output += `Solution: Create test donations from a different user account.`;
+
+                    showResult('step4-result', output, 'warning');
+                    results.browseAPIWorks = false;
+                }
+            } catch (error) {
+                showResult('step4-result',
+                    `❌ Error calling Browse API\n\n${error.message}`,
+                    'error'
+                );
+                results.browseAPIWorks = false;
+            }
+        }
+
+        async function createTestDonation() {
+            const resultEl = document.getElementById('step5-result');
+            resultEl.style.display = 'block';
+            resultEl.textContent = 'Creating test donation...';
+
+            const testDonation = {
+                food: `Test Donation ${new Date().toLocaleTimeString()}`,
+                quantity: '2 portions',
+                foodType: 'Vegetarian',
+                description: 'This is a test donation. It should appear in the browse page.',
+                location: 'Test Location #1',
+                cookedTime: new Date().toISOString(),
+                images: []
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/api/donations/create`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testDonation)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    let output = `✅ Test Donation Created Successfully\n\n`;
+                    output += `Donation ID: ${data.donation._id}\n`;
+                    output += `Food: ${data.donation.food}\n`;
+                    output += `Status: ${data.donation.status}\n\n`;
+                    output += `⚠️ Note: This donation belongs to YOUR account.\n`;
+                    output += `It WON'T appear in your browse page (by design - you can't see your own donations).\n\n`;
+                    output += `To test browse properly, you need TWO logged-in users:\n`;
+                    output += `1. User A creates a donation\n`;
+                    output += `2. User B logs in and should see User A's donation\n\n`;
+                    output += `Click "Create Test Donation #2" to simulate this.`;
+
+                    showResult('step5-result', output, 'success');
+                } else {
+                    showResult('step5-result',
+                        `❌ Failed to create donation\n\n${data.message || JSON.stringify(data)}`,
+                        'error'
+                    );
+                }
+            } catch (error) {
+                showResult('step5-result',
+                    `❌ Error creating donation\n\n${error.message}`,
+                    'error'
+                );
+            }
+        }
+
+        async function createTestDonation2() {
+            const resultEl = document.getElementById('step5-result');
+            resultEl.style.display = 'block';
+            resultEl.textContent = 'Note: Switch users or create new account to see donations.\n\nTo properly test the browse feature:\n\n1. Create Account #1 (email: user1@test.com)\n2. Log in as Account #1\n3. Go to addfood.html and create a donation\n4. Log out\n5. Create Account #2 (email: user2@test.com)\n6. Log in as Account #2\n7. Go to browse.html - should see Account #1\'s donation\n\nFor now, multiple users require separate browser tabs/windows in private/incognito mode.';
+        }
+
+        async function runFullDiagnostic() {
+            const resultEl = document.getElementById('summary-result');
+            resultEl.style.display = 'block';
+            resultEl.textContent = 'Running full diagnostic...\n\n';
+
+            // Run all tests
+            await testBackendConnection();
+            await new Promise(r => setTimeout(r, 500));
+            checkUserSession();
+            await new Promise(r => setTimeout(r, 500));
+            await getAllDonationsDebug();
+            await new Promise(r => setTimeout(r, 500));
+            await testBrowseAPI();
+
+            // Generate summary
+            let summary = `\n\n═══ DIAGNOSTIC SUMMARY ═══\n\n`;
+
+            if (results.backendOK && results.userOK) {
+                summary += `✅ System is ready for testing\n\n`;
+
+                if (results.donationsExist && results.browseAPIWorks) {
+                    summary += `✅ Donations exist and browse API works\n`;
+                    summary += `✅ BROWSE ISSUE RESOLVED - Check browse.html\n`;
+                } else if (!results.donationsExist) {
+                    summary += `⚠️ No donations in database yet\n`;
+                    summary += `👉 NEXT STEP: Create donations using addfood.html\n`;
+                    summary += `👉 Then refresh browse.html\n`;
+                } else if (!results.browseAPIWorks) {
+                    summary += `❌ Donations exist but browse API returns none\n`;
+                    summary += `👉 ISSUE: API filtering or permissions problem\n`;
+                    summary += `👉 Check: Are all donations by current user?\n`;
+                    summary += `👉 Solution: Create donations from different user accounts\n`;
+                }
+            } else {
+                summary += `❌ System not ready:\n`;
+                if (!results.backendOK) summary += `  - Backend not running\n`;
+                if (!results.userOK) summary += `  - User not logged in\n`;
+            }
+
+            showResult('summary-result', resultEl.textContent + summary);
+        }
+
+        function clearResults() {
+            document.querySelectorAll('.result-output').forEach(el => {
+                el.style.display = 'none';
+                el.textContent = '';
+            });
+            results = {};
+        }
+
+        // Run initial check on page load
+        window.addEventListener('load', () => {
+            console.log('Diagnostic tool loaded');
+        });
+    </script>
+</body>
+
+</html>
