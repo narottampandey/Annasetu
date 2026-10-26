@@ -64,6 +64,16 @@ function checkForGoogleToken() {
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Register page loaded');
 
+  // Check for error in URL parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const authError = urlParams.get('error');
+  if (authError) {
+    const errorMsg = urlParams.get('message') || 'Registration/Authentication failed. Please try again.';
+    console.error('Authentication Error from redirect:', authError, errorMsg);
+    alert('Authentication error: ' + decodeURIComponent(errorMsg));
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
   // Check for Google token on page load FIRST
   if (checkForGoogleToken()) {
     return; // Exit if token was found and we're redirecting

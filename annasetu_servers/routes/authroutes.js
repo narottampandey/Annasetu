@@ -55,6 +55,13 @@ router.get("/google", (req, res) => {
   res.redirect(googleAuthUrl);
 });
 
+// Helper to resolve frontend redirect destination across local dev and deployed Vercel/Render
+const getFrontendRedirect = (pathWithQuery) => {
+  const base = (process.env.FRONTEND_URL || '').trim().replace(/\/+$/, '');
+  const cleanPath = pathWithQuery.startsWith('/') ? pathWithQuery : `/${pathWithQuery}`;
+  return base ? `${base}${cleanPath}` : cleanPath;
+};
+
 // Google OAuth callback - receive code OR token
 router.get("/google/callback", async (req, res) => {
   try {
@@ -76,11 +83,11 @@ router.get("/google/callback", async (req, res) => {
     }
 
     console.log("❌ Step 1 FAILED: Neither code nor token received");
-    return res.redirect("/login.html?error=no_auth_data");
+    return res.redirect(getFrontendRedirect("/login.html?error=no_auth_data"));
 
   } catch (error) {
     console.error("❌ CRITICAL ERROR in Google callback:", error);
-    res.redirect("/login.html?error=auth_failed&message=" + encodeURIComponent(error.message));
+    res.redirect(getFrontendRedirect("/login.html?error=auth_failed&message=" + encodeURIComponent(error.message)));
   }
 });
 
@@ -127,7 +134,8 @@ async function handleGoogleSignInWidget(jwtToken, res) {
             googleName: name,
             googleEmail: email,
             googleProfilePicture: picture,
-            authMethod: 'google'
+            authMethod: 'google',
+            isVerified: true
           },
           { new: true }
         );
@@ -141,7 +149,8 @@ async function handleGoogleSignInWidget(jwtToken, res) {
           googleName: name,
           googleEmail: email,
           googleProfilePicture: picture,
-          authMethod: 'google'
+          authMethod: 'google',
+          isVerified: true
         });
         console.log("✓ Step 2b SUCCESS: New user created. User ID:", user._id);
       }
@@ -157,7 +166,7 @@ async function handleGoogleSignInWidget(jwtToken, res) {
       { expiresIn: "7d" }
     );
 
-    const redirectUrl = `/dashboard.html?token=${ourToken}&userId=${user._id}&userName=${encodeURIComponent(user.name)}&userEmail=${encodeURIComponent(user.email)}`;
+    const redirectUrl = getFrontendRedirect(`/dashboard.html?token=${ourToken}&userId=${user._id}&userName=${encodeURIComponent(user.name)}&userEmail=${encodeURIComponent(user.email)}`);
     console.log("✓ Step 3 SUCCESS: JWT token created");
     console.log("✓ Redirecting to dashboard...");
     console.log("=== Google Sign-In Widget Auth Complete (SUCCESS) ===\n");
@@ -166,7 +175,7 @@ async function handleGoogleSignInWidget(jwtToken, res) {
 
   } catch (error) {
     console.error("❌ Error processing Google Sign-In Widget token:", error);
-    res.redirect("/login.html?error=widget_token_failed&message=" + encodeURIComponent(error.message));
+    res.redirect(getFrontendRedirect("/login.html?error=widget_token_failed&message=" + encodeURIComponent(error.message)));
   }
 }
 
@@ -195,7 +204,7 @@ async function handleGoogleOAuthCode(code, res) {
 
     if (!tokenData.access_token) {
       console.log("❌ Step 2 FAILED: No access token received:", tokenData);
-      return res.redirect("/login.html?error=no_token&details=" + encodeURIComponent(JSON.stringify(tokenData)));
+      return res.redirect(getFrontendRedirect("/login.html?error=no_token&details=" + encodeURIComponent(JSON.stringify(tokenData))));
     }
 
     console.log("✓ Step 2 SUCCESS: Access token received");
@@ -215,54 +224,66 @@ async function handleGoogleOAuthCode(code, res) {
     const User = require("../models/user");
     const jwt = require("jsonwebtoken");
 
-    console.log("Step 4: Checking if user exists with googleId:", profile.id);
-    let user = await User.findOne({ googleId: profile.id });
+    // Helper to retry transient MongoDB writes if needed
+    const executeWithRetry = async (fn, retries = 2) => {
+      for (let i = 1; i <= retries; i++) {
+        try {
+          return await fn();
+        } catch (err) {
+          if (i === retries) throw err;
+          console.warn(`[DB Retry ${i}/${retries}] Retrying after transient error:`, err.message);
+          await new Promise(r => setTimeout(r, 800));
+        }
+      }
+    };
 
-    if (!user) {
-      console.log("  → User NOT found with googleId, checking by email:", profile.email);
-      let existingEmailUser = await User.findOne({ email: profile.email });
+    user = await executeWithRetry(async () => {
+      let u = await User.findOne({ googleId: profile.id });
 
-      if (existingEmailUser) {
-        console.log("  → Found existing user by email, updating with Google info...");
-        user = await User.findByIdAndUpdate(
-          existingEmailUser._id,
-          {
+      if (!u) {
+        console.log("  → User NOT found with googleId, checking by email:", profile.email);
+        let existingEmailUser = await User.findOne({ email: profile.email });
+
+        if (existingEmailUser) {
+          console.log("  → Found existing user by email, updating with Google info...");
+          u = await User.findByIdAndUpdate(
+            existingEmailUser._id,
+            {
+              googleId: profile.id,
+              googleName: profile.name,
+              googleEmail: profile.email,
+              googleProfilePicture: profile.picture,
+              googleRefreshToken: tokenData.refresh_token || existingEmailUser.googleRefreshToken,
+              authMethod: 'google',
+              isVerified: true
+            },
+            { new: true }
+          );
+          console.log("✓ Step 4a SUCCESS: User updated with Google info. User ID:", u._id);
+        } else {
+          console.log("  → No existing user found, CREATING NEW USER...");
+          u = await User.create({
+            name: profile.name,
+            email: profile.email,
             googleId: profile.id,
             googleName: profile.name,
             googleEmail: profile.email,
             googleProfilePicture: profile.picture,
-            // Persist refresh token if available
-            googleRefreshToken: tokenData.refresh_token || existingEmailUser.googleRefreshToken,
-            authMethod: 'google'
-          },
-          { new: true }
-        );
-        console.log("✓ Step 4a SUCCESS: User updated with Google info. User ID:", user._id);
+            googleRefreshToken: tokenData.refresh_token || undefined,
+            authMethod: 'google',
+            isVerified: true
+          });
+          console.log("✓ Step 4b SUCCESS: New user created. User ID:", u._id);
+        }
       } else {
-        console.log("  → No existing user found, CREATING NEW USER...");
-        user = await User.create({
-          name: profile.name,
-          email: profile.email,
-          googleId: profile.id,
-          googleName: profile.name,
-          googleEmail: profile.email,
-          googleProfilePicture: profile.picture,
-          // Store refresh token when provided by Google
-          googleRefreshToken: tokenData.refresh_token || undefined,
-          authMethod: 'google'
-        });
-        console.log("✓ Step 4b SUCCESS: New user created. User ID:", user._id);
+        console.log("✓ Step 4c SUCCESS: User already exists with googleId. User ID:", u._id);
+        const update = { isVerified: true };
+        if (profile.picture) update.googleProfilePicture = profile.picture;
+        if (tokenData.refresh_token) update.googleRefreshToken = tokenData.refresh_token;
+        u = await User.findByIdAndUpdate(u._id, update, { new: true });
       }
-    } else {
-      console.log("✓ Step 4c SUCCESS: User already exists with googleId. User ID:", user._id);
-      // Update profile picture and refresh token if available
-      const update = {};
-      if (profile.picture) update.googleProfilePicture = profile.picture;
-      if (tokenData.refresh_token) update.googleRefreshToken = tokenData.refresh_token;
-      if (Object.keys(update).length) {
-        user = await User.findByIdAndUpdate(user._id, update, { new: true });
-      }
-    }
+      return u;
+    });
 
     console.log("Step 5: Creating JWT token for our app...");
     const jwtToken = jwt.sign(
@@ -271,7 +292,7 @@ async function handleGoogleOAuthCode(code, res) {
       { expiresIn: "7d" }
     );
 
-    const redirectUrl = `/dashboard.html?token=${jwtToken}&userId=${user._id}&userName=${encodeURIComponent(user.name)}&userEmail=${encodeURIComponent(user.email)}`;
+    const redirectUrl = getFrontendRedirect(`/dashboard.html?token=${jwtToken}&userId=${user._id}&userName=${encodeURIComponent(user.name)}&userEmail=${encodeURIComponent(user.email)}`);
     console.log("✓ Step 5 SUCCESS: JWT token created");
     console.log("✓ Redirecting to dashboard...");
     console.log("=== Google OAuth Code Auth Complete (SUCCESS) ===\n");
@@ -280,7 +301,7 @@ async function handleGoogleOAuthCode(code, res) {
 
   } catch (error) {
     console.error("❌ Error processing Google OAuth code:", error);
-    res.redirect("/login.html?error=auth_failed&message=" + encodeURIComponent(error.message));
+    res.redirect(getFrontendRedirect("/login.html?error=auth_failed&message=" + encodeURIComponent(error.message)));
   }
 }
 

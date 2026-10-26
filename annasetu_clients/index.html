@@ -4,97 +4,616 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Annasetu – Reduce Food Waste, Feed Communities</title>
-  <meta name="description" content="Annasetu connects surplus food with people in need, cattle farms, and fertilizer centers. Join the food waste reduction movement." />
+  <title>Annasetu – AI-Powered Food Loss Mitigation & Redistribution</title>
+  <meta name="description" content="Annasetu bridges surplus food to people in need, cattle shelters, organic composting, and green energy. Join the zero food-waste movement today." />
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <!-- Font Awesome -->
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  
+  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <!-- Styles -->
-  <link rel="stylesheet" href="css/style.css" />
+  
+  <!-- Modern Landing Styles -->
+  <link rel="stylesheet" href="css/landing.css" />
 </head>
 
 <body>
 
   <!-- ── NAVBAR ── -->
-  <header class="navbar">
-    <div class="logo">
-      <a href="index.html">अन्न-<span style="color:var(--accent);">Setu</span></a>
+  <header class="navbar-wrapper" id="navbarWrapper">
+    <div class="navbar">
+      <a href="index.html" class="logo-brand">
+        <div class="logo-symbol">
+          <i class="fa-solid fa-leaf"></i>
+        </div>
+        <div class="logo-text-group">
+          <span class="logo-title">अन्न-<span>Setu</span></span>
+          <span class="logo-tagline">Zero Waste Ecosystem</span>
+        </div>
+      </a>
+
+      <!-- Action Buttons -->
+      <div class="nav-actions">
+        <a href="login.html" class="btn-nav-login" id="navLoginLink">Login</a>
+        <a href="register.html" class="btn-nav-primary" id="navRegisterLink">
+          <i class="fa-solid fa-user-plus"></i>
+          <span>Register</span>
+        </a>
+      </div>
     </div>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="login.html" id="navLoginLink">Login</a>
-      <a href="register.html" id="navRegisterLink">Register</a>
-    </nav>
   </header>
 
-  <!-- ── HERO ── -->
-  <section class="hero">
-    <div class="image-slider">
-      <div class="slider-container">
-        <img src="foodimages/main.jpg" alt="Food sharing community" class="slider-image active" />
+  <!-- ── HERO SECTION ── -->
+  <section class="hero-section">
+    <div class="hero-ambient-glow"></div>
+    <div class="hero-grid-pattern"></div>
+
+    <div class="hero-container">
+      <!-- Left Column: Compelling Pitch & Actions -->
+      <div class="hero-left">
+        <div class="badge-pill">
+          <span class="pulse-dot"></span>
+          <span>AI-Powered Food Loss Mitigation · Circular Zero Waste</span>
+        </div>
+
+        <h1 class="hero-headline" id="heroTitle">
+          Turn Surplus Food Into <span class="gradient-text">Hope, Nutrition & Energy</span>
+        </h1>
+
+        <p class="hero-subtext">
+          Every day, tons of edible food are lost. Annasetu instantly bridges surplus banquets and cafeterias to verified community shelters, repurposes wholesome scraps for cattle gaushalas, and converts organic residuals into rich compost.
+        </p>
+
+        <div class="hero-cta-group">
+          <a href="register.html" class="btn-primary-large" id="heroGetStarted">
+            <i class="fa-solid fa-user-plus"></i>
+            <span>Get Started</span>
+          </a>
+          <a href="login.html" class="btn-secondary-large" id="heroLogin">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <span>Login</span>
+          </a>
+        </div>
+
+        <div class="hero-micro-trust">
+          <div class="trust-item">
+            <i class="fa-solid fa-bolt"></i>
+            <span>15-Min Proximity Match</span>
+          </div>
+          <div class="trust-item">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>AI Quality Inspected</span>
+          </div>
+          <div class="trust-item">
+            <i class="fa-solid fa-seedling"></i>
+            <span>100% Zero-Landfill Chain</span>
+          </div>
+        </div>
       </div>
-      <div class="slider-overlay"></div>
-    </div>
-    <div class="hero-content">
-      <h1 id="heroTitle">Reduce Food Waste</h1>
-      <p>Connect leftover food with people, cattle farms, and fertilizer centers. Together we build a sustainable community.</p>
-      <div class="buttons">
-        <a href="register.html" class="btn" id="heroGetStarted">Get Started</a>
-        <a href="login.html" class="btn-outline" id="heroLogin">Login</a>
+
+      <!-- Right Column: Interactive Live Rescue Nexus -->
+      <div class="hero-right">
+
+        <!-- The Central Nexus Card -->
+        <div class="hero-nexus-card">
+          <div class="nexus-header">
+            <div class="nexus-title">
+              <i class="fa-solid fa-satellite-dish" style="color: #4ade80;"></i>
+              <h3>Live Rescue Nexus</h3>
+            </div>
+            <span class="nexus-status-badge">
+              <span class="pulse-dot"></span>
+              <span>18 Batches Active</span>
+            </span>
+          </div>
+
+          <!-- Tier Preview Switcher Tabs -->
+          <div class="nexus-tier-tabs" id="nexusTabs">
+            <button class="nexus-tab-btn active" data-tier="human">
+              <i class="fa-solid fa-bowl-food"></i>
+              <span>Human Meals</span>
+            </button>
+            <button class="nexus-tab-btn" data-tier="cattle">
+              <i class="fa-solid fa-cow"></i>
+              <span>Cattle Feed</span>
+            </button>
+            <button class="nexus-tab-btn" data-tier="compost">
+              <i class="fa-solid fa-seedling"></i>
+              <span>Compost</span>
+            </button>
+            <button class="nexus-tab-btn" data-tier="energy">
+              <i class="fa-solid fa-bolt-lightning"></i>
+              <span>Bio-Energy</span>
+            </button>
+          </div>
+
+          <!-- Interactive Simulation Card -->
+          <div class="nexus-simulation-card" id="nexusSimulationCard">
+            <div class="nexus-sim-img-wrap">
+              <img src="images/hero_food_rescue.jpg" alt="Surplus Food Rescue" class="nexus-sim-img" id="nexusImg" />
+              <div class="nexus-sim-overlay"></div>
+              <div class="nexus-sim-tags">
+                <span class="tag-tier" id="nexusTagTier">
+                  <i class="fa-solid fa-utensils"></i>
+                  <span>Tier 1: Human Sustenance</span>
+                </span>
+                <span class="tag-ai-grade" id="nexusAiGrade">AI Score: 98% Fresh</span>
+              </div>
+            </div>
+
+            <div class="nexus-sim-body">
+              <div class="nexus-sim-title-row">
+                <div>
+                  <h4 class="nexus-sim-food-name" id="nexusFoodName">Paneer Masala & Jeera Rice</h4>
+                  <p class="nexus-sim-donor" id="nexusDonor"><i class="fa-solid fa-hotel"></i> The Royal Grand Banquet Hall</p>
+                </div>
+              </div>
+
+              <div class="nexus-sim-metrics">
+                <div class="sim-metric">
+                  <div class="sim-metric-val" id="nexusQty">85 kg</div>
+                  <div class="sim-metric-lbl">Quantity</div>
+                </div>
+                <div class="sim-metric">
+                  <div class="sim-metric-val" id="nexusImpact">~210 Meals</div>
+                  <div class="sim-metric-lbl">Direct Impact</div>
+                </div>
+                <div class="sim-metric">
+                  <div class="sim-metric-val" id="nexusShelf">3h 40m</div>
+                  <div class="sim-metric-lbl">Shelf Safe</div>
+                </div>
+              </div>
+
+              <div class="nexus-route-box">
+                <div class="route-entity">
+                  <i class="fa-solid fa-location-dot" style="color:#4ade80;"></i>
+                  <span id="nexusOrigin">Sector 62, Noida</span>
+                </div>
+                <i class="fa-solid fa-arrow-right-long route-arrow"></i>
+                <div class="route-entity">
+                  <i class="fa-solid fa-heart" style="color:#f59e0b;"></i>
+                  <span id="nexusDest">City Hope Shelter</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ── FEATURES ── -->
-  <section class="features">
-    <h2>Platform Features</h2>
-    <div class="feature-container">
-      <div class="feature-card">
-        <div class="icon"><i class="fa fa-hand-holding-heart"></i></div>
-        <h3>Food Donation</h3>
-        <p>Houses, hostels, mess halls and marriage venues can donate surplus food easily.</p>
+  <!-- ── IMPACT COUNTER STRIP ── -->
+  <section class="stats-bar-section">
+    <div class="stats-card-strip">
+      <div class="stat-item">
+        <div class="stat-icon-wrap">
+          <i class="fa-solid fa-utensils"></i>
+        </div>
+        <div class="stat-number" data-target="148500">148,500+</div>
+        <div class="stat-label">Meals Rescued & Fed to People</div>
       </div>
-      <div class="feature-card">
-        <div class="icon"><i class="fa fa-users"></i></div>
-        <h3>Human Support</h3>
-        <p>NGOs and individuals can collect food for people in need across the community.</p>
+
+      <div class="stat-item">
+        <div class="stat-icon-wrap" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">
+          <i class="fa-solid fa-cow"></i>
+        </div>
+        <div class="stat-number" data-target="42.8">42.8 Tons</div>
+        <div class="stat-label">Feed Delivered to Cattle Shelters</div>
       </div>
-      <div class="feature-card">
-        <div class="icon"><i class="fa fa-cow"></i></div>
-        <h3>Cattle Feed</h3>
-        <p>Food not suitable for humans is repurposed as nutritious cattle feed.</p>
+
+      <div class="stat-item">
+        <div class="stat-icon-wrap" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">
+          <i class="fa-solid fa-seedling"></i>
+        </div>
+        <div class="stat-number" data-target="26.5">26.5 Tons</div>
+        <div class="stat-label">Transformed into Organic Compost</div>
       </div>
-      <div class="feature-card">
-        <div class="icon"><i class="fa fa-seedling"></i></div>
-        <h3>Organic Fertilizer</h3>
-        <p>Food waste is transformed into organic fertilizer for sustainable farming.</p>
-      </div>
-      <div class="feature-card">
-        <div class="icon"><i class="fa fa-robot"></i></div>
-        <h3>AI Classification</h3>
-        <p>AI automatically categorizes food quality for the most appropriate usage.</p>
+
+      <div class="stat-item">
+        <div class="stat-icon-wrap" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
+          <i class="fa-solid fa-cloud-arrow-down"></i>
+        </div>
+        <div class="stat-number" data-target="112.4">112.4 Tons</div>
+        <div class="stat-label">CO₂e Landfill Emissions Averted</div>
       </div>
     </div>
   </section>
 
-  <!-- ── ABOUT ── -->
-  <section class="about">
-    <h2>About Annasetu</h2>
-    <p>
-      Annasetu ("Anna" = food, "Setu" = bridge) is a platform dedicated to reducing food waste by bridging the gap
-      between food surplus and food need. Every meal saved is a step toward a more equitable and sustainable world.
-    </p>
+  <!-- ── 4-TIER MITIGATION PATHWAYS ── -->
+  <section class="section-wrapper pathways-section" id="pathways">
+    <div class="section-header-centered">
+      <div class="badge-pill">
+        <i class="fa-solid fa-recycle"></i>
+        <span>Complete Circular Redistribution</span>
+      </div>
+      <h2 class="section-title">The 4-Tier Mitigation Architecture</h2>
+      <p class="section-subtitle">
+        Zero edible food should ever touch a landfill. Annasetu implements an intelligent multi-tiered fallback hierarchy ensuring every gram of surplus reaches its highest ecological and social value.
+      </p>
+    </div>
+
+    <div class="pathways-grid">
+      <!-- Tier 1: Human Sustenance -->
+      <div class="pathway-card">
+        <span class="tier-number-badge">Primary Priority</span>
+        <div class="pathway-icon">
+          <i class="fa-solid fa-hands-holding-child"></i>
+        </div>
+        <h3 class="pathway-title">Tier 1: Human Sustenance</h3>
+        <p class="pathway-desc">
+          Hot cooked meals, banquet catering surpluses, bakery items, and fresh produce distributed directly to orphanages, elderly homes, and daily-wage relief shelters.
+        </p>
+        <ul class="pathway-list">
+          <li><i class="fa-solid fa-check"></i> Multimodal AI Hygiene & Temperature check</li>
+          <li><i class="fa-solid fa-check"></i> Sub-30 minute alert dispatch to local NGOs</li>
+          <li><i class="fa-solid fa-check"></i> Secure OTP verification at pickup</li>
+        </ul>
+        <div class="pathway-footer-tag">
+          <span>Target Window:</span> <strong style="color:#4ade80;">2 to 6 Hours</strong>
+        </div>
+      </div>
+
+      <!-- Tier 2: Cattle & Livestock Feed -->
+      <div class="pathway-card tier-2">
+        <span class="tier-number-badge">Secondary Recovery</span>
+        <div class="pathway-icon">
+          <i class="fa-solid fa-cow"></i>
+        </div>
+        <h3 class="pathway-title">Tier 2: Cattle & Livestock Feed</h3>
+        <p class="pathway-desc">
+          Safe grains, unseasoned vegetable peels, surplus rotis, and bakery bread that exceed human shelf life are routed to registered Gaushalas and dairy cooperatives.
+        </p>
+        <ul class="pathway-list">
+          <li><i class="fa-solid fa-check"></i> Verified non-toxic & animal-safe ingredients</li>
+          <li><i class="fa-solid fa-check"></i> Bulk transportation matching with farm pickups</li>
+          <li><i class="fa-solid fa-check"></i> Reduces dairy farm fodder expenditure</li>
+        </ul>
+        <div class="pathway-footer-tag">
+          <span>Target Window:</span> <strong style="color:#fbbf24;">12 to 24 Hours</strong>
+        </div>
+      </div>
+
+      <!-- Tier 3: Organic Fertilizer & Soil Carbon -->
+      <div class="pathway-card tier-3">
+        <span class="tier-number-badge">Tertiary Nutrient Loop</span>
+        <div class="pathway-icon">
+          <i class="fa-solid fa-seedling"></i>
+        </div>
+        <h3 class="pathway-title">Tier 3: Organic Compost</h3>
+        <p class="pathway-desc">
+          Raw kitchen prep scraps, tea waste, and expired perishables transformed into rich organic compost to restore micro-nutrients in agricultural soils.
+        </p>
+        <ul class="pathway-list">
+          <li><i class="fa-solid fa-check"></i> Partnered with community composting pits</li>
+          <li><i class="fa-solid fa-check"></i> Enriched with aerobic microbial accelerators</li>
+          <li><i class="fa-solid fa-check"></i> Free compost returned to community gardens</li>
+        </ul>
+        <div class="pathway-footer-tag">
+          <span>Target Window:</span> <strong style="color:#34d399;">24 to 48 Hours</strong>
+        </div>
+      </div>
+
+      <!-- Tier 4: Bio-Energy & Biogas -->
+      <div class="pathway-card tier-4">
+        <span class="tier-number-badge">Clean Energy Loop</span>
+        <div class="pathway-icon">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        <h3 class="pathway-title">Tier 4: Bio-Energy & Biogas</h3>
+        <p class="pathway-desc">
+          Severely degraded organic waste is channeled to municipal anaerobic digesters to produce clean methane biogas for cooking and electricity generation.
+        </p>
+        <ul class="pathway-list">
+          <li><i class="fa-solid fa-check"></i> Zero methane leakage into atmosphere</li>
+          <li><i class="fa-solid fa-check"></i> Generates renewable electricity for city grids</li>
+          <li><i class="fa-solid fa-check"></i> Bio-slurry used as liquid bio-fertilizer</li>
+        </ul>
+        <div class="pathway-footer-tag">
+          <span>Target Window:</span> <strong style="color:#38bdf8;">Flexible Continuous</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── AI QUALITY ANALYSIS SHOWCASE ── -->
+  <section class="section-wrapper ai-showcase-section" id="ai-tech">
+    <div class="ai-grid">
+      <!-- AI Narrative -->
+      <div class="ai-content">
+        <div class="badge-pill">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>Gemini Vision AI Integration</span>
+        </div>
+        <h2 class="section-title">
+          Instant Vision AI for <span class="gradient-text">Hygiene & Shelf-Life</span>
+        </h2>
+        <p class="section-subtitle">
+          Donors simply take a photo of their surplus food. Annasetu's integrated multimodal neural engine analyzes dish characteristics, moisture levels, estimated quantity, and calculates safe consumption windows.
+        </p>
+
+        <div class="ai-feature-list">
+          <div class="ai-feature-item">
+            <div class="ai-icon-circle">
+              <i class="fa-solid fa-camera"></i>
+            </div>
+            <div class="ai-feature-text">
+              <h4>Zero-Friction Camera Upload</h4>
+              <p>No tedious forms. AI recognizes dishes (e.g. Biryani, Dal, Curd, Mixed Vegetables) and auto-populates nutritional profiles.</p>
+            </div>
+          </div>
+
+          <div class="ai-feature-item">
+            <div class="ai-icon-circle" style="color: #fbbf24; background: rgba(245, 158, 11, 0.15);">
+              <i class="fa-solid fa-shield-virus"></i>
+            </div>
+            <div class="ai-feature-text">
+              <h4>Safety & Spoilage Prevention</h4>
+              <p>Intelligently categorizes food into Tier 1 (Human) vs Tier 2 (Cattle) or Tier 3 (Compost) based on strict perishability algorithms.</p>
+            </div>
+          </div>
+
+          <div class="ai-feature-item">
+            <div class="ai-icon-circle" style="color: #38bdf8; background: rgba(2, 132, 199, 0.15);">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+            <div class="ai-feature-text">
+              <h4>Dynamic Expiry Countdown</h4>
+              <p>Receivers see real-time shelf life so volunteers prioritize urgent hot batches before nutritional quality drops.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Interactive Visual Scanner Mockup -->
+      <div class="ai-scanner-card">
+        <div class="scanner-viewport">
+          <img src="images/hero_food_rescue.jpg" alt="AI Food Scanner Visual" class="scanner-image" />
+          <div class="scan-laser-line"></div>
+          
+          <div class="detection-box">
+            <div class="detection-tag">
+              <i class="fa-solid fa-check"></i> Paneer Masala · Grade 98%
+            </div>
+          </div>
+        </div>
+
+        <div class="scanner-diagnostics">
+          <div class="diag-pill">
+            <div class="diag-lbl">Confidence</div>
+            <div class="diag-val">99.4% Match</div>
+          </div>
+          <div class="diag-pill">
+            <div class="diag-lbl">Recommended</div>
+            <div class="diag-val" style="color:#4ade80;">Tier 1: Human</div>
+          </div>
+          <div class="diag-pill">
+            <div class="diag-lbl">Max Shelf Life</div>
+            <div class="diag-val" style="color:#fbbf24;">4.5 Hours Safe</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOW IT WORKS (DONORS VS CLAIMERS) ── -->
+  <section class="section-wrapper workflow-section" id="how-it-works">
+    <div class="section-header-centered">
+      <div class="badge-pill">
+        <i class="fa-solid fa-diagram-project"></i>
+        <span>Streamlined Execution</span>
+      </div>
+      <h2 class="section-title">How Annasetu Delivers Results</h2>
+      <p class="section-subtitle">
+        Whether you are donating excess buffet meals or a shelter coordinating dinner for 150 children, Annasetu makes the connection in minutes.
+      </p>
+
+      <!-- Toggle Tabs -->
+      <div class="workflow-tabs" id="workflowTabs" style="margin-top: 24px;">
+        <button class="workflow-tab-btn active" data-flow="donors">
+          <i class="fa-solid fa-hand-holding-heart"></i>
+          <span>For Donors (Venues & Messes)</span>
+        </button>
+        <button class="workflow-tab-btn" data-flow="receivers">
+          <i class="fa-solid fa-truck-ramp-box"></i>
+          <span>For Receivers (NGOs, Farms & Shelters)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Steps Container -->
+    <div class="workflow-steps-container" id="workflowSteps">
+      <!-- Step 1 -->
+      <div class="step-card">
+        <div class="step-badge">1</div>
+        <h3 id="step1Title">Snap & Auto-List</h3>
+        <p id="step1Desc">
+          Take a photo of surplus food on your mobile device. Our AI instantly classifies the cuisine, freshness, and estimates total portions.
+        </p>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step-card">
+        <div class="step-badge">2</div>
+        <h3 id="step2Title">Smart Proximity Broadcast</h3>
+        <p id="step2Desc">
+          Nearby verified NGOs, cattle shelters, or composting units receive high-priority push notifications based on distance and route suitability.
+        </p>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step-card">
+        <div class="step-badge">3</div>
+        <h3 id="step3Title">Verified Zero-Friction Pickup</h3>
+        <p id="step3Desc">
+          Claimants generate a secure pickup QR/OTP. Volunteers complete handover, track delivery on the live map, and log impact metrics.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── FAQ SECTION ── -->
+  <section class="section-wrapper faq-section">
+    <div class="section-header-centered">
+      <div class="badge-pill">
+        <i class="fa-solid fa-circle-question"></i>
+        <span>Answers & Clarity</span>
+      </div>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-subtitle">
+        Everything you need to know about safety, liability, logistics, and partner registration.
+      </p>
+    </div>
+
+    <div class="faq-container">
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>How does Annasetu verify food safety and hygiene?</span>
+          <i class="fa-solid fa-chevron-down faq-icon"></i>
+        </button>
+        <div class="faq-answer">
+          Every donor venue complies with standard food safety guidelines. Our multimodal AI model examines photo metadata, prep timestamps, storage temperature, and dish composition. Batches for human consumption must be listed within 2 hours of cooking.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Who handles the pickup and transportation?</span>
+          <i class="fa-solid fa-chevron-down faq-icon"></i>
+        </button>
+        <div class="faq-answer">
+          Claimants (NGOs, shelters, farms) organize pickup using their own volunteers or coordinate through our integrated hyperlocal delivery partner network. Donors simply pack the food in clean containers for quick handoff.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Is Annasetu free for non-profits and food donors?</span>
+          <i class="fa-solid fa-chevron-down faq-icon"></i>
+        </button>
+        <div class="faq-answer">
+          Yes! Annasetu is 100% free for charitable shelters, NGOs, gaushalas, and food donors. Our mission is to eliminate food waste and eradicate hunger through open community collaboration.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>How can cattle shelters or composting facilities join?</span>
+          <i class="fa-solid fa-chevron-down faq-icon"></i>
+        </button>
+        <div class="faq-answer">
+          During registration, select your organization role as 'Cattle Feed Partner' or 'Compost/Bio-Energy Partner'. Once verified, you will receive notifications for Tier 2 and Tier 3 batches in your locality.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Can individual households donate surplus food?</span>
+          <i class="fa-solid fa-chevron-down faq-icon"></i>
+        </button>
+        <div class="faq-answer">
+          Yes! While large caterers and messes provide bulk quantities, individual households and apartment societies can bundle donations or request volunteers for pickup when preparing excess meals during festivals and celebrations.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HIGH-IMPACT FINAL CTA ── -->
+  <section class="cta-banner-section">
+    <div class="cta-banner-card">
+      <div class="badge-pill" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); color: #ffffff;">
+        <i class="fa-solid fa-seedling"></i>
+        <span>Join The Circular Food Revolution</span>
+      </div>
+      <h2>Every Meal Saved Is A Step Toward Zero Hunger</h2>
+      <p>
+        Don't let good food end up in landfills. Connect your banquet, hostel, restaurant, or NGO to India's most advanced circular food redistribution network today.
+      </p>
+      <div class="cta-banner-buttons">
+        <a href="register.html" class="btn-primary-large" style="background:#ffffff; color:#1b7a42; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+          <i class="fa-solid fa-user-plus"></i>
+          <span>Create Free Account</span>
+        </a>
+        <a href="login.html" class="btn-secondary-large">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          <span>Login to Dashboard</span>
+        </a>
+      </div>
+    </div>
   </section>
 
   <!-- ── FOOTER ── -->
-  <footer>
-    <p>© 2026 अन्न-Setu &nbsp;·&nbsp; Built with ❤️ to end food waste</p>
+  <footer class="footer-wrapper">
+    <div class="footer-container">
+      <div class="footer-col-brand">
+        <div class="logo-brand">
+          <div class="logo-symbol">
+            <i class="fa-solid fa-leaf"></i>
+          </div>
+          <div class="logo-text-group">
+            <span class="logo-title">अन्न-<span>Setu</span></span>
+            <span class="logo-tagline">Zero Waste Ecosystem</span>
+          </div>
+        </div>
+        <p>
+          Bridging the critical gap between food surplus and community sustenance through 4-tier circular mitigation and AI inspection.
+        </p>
+        <div class="footer-social-links">
+          <a href="#" class="social-btn" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" class="social-btn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social-btn" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Mitigation Pathways</h4>
+        <ul class="footer-links-list">
+          <li><a href="#pathways">Tier 1: Human Meals</a></li>
+          <li><a href="#pathways">Tier 2: Cattle Feed</a></li>
+          <li><a href="#pathways">Tier 3: Organic Compost</a></li>
+          <li><a href="#pathways">Tier 4: Biogas & Energy</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <ul class="footer-links-list">
+          <li><a href="login.html">Live Donation Map</a></li>
+          <li><a href="#ai-tech">Gemini AI Inspection</a></li>
+          <li><a href="login.html">Donor Dashboard</a></li>
+          <li><a href="login.html">Claimant Portal</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Emergency Relief</h4>
+        <ul class="footer-links-list">
+          <li><a href="tel:18001234567"><i class="fa-solid fa-phone"></i> 1800-ANNA-SETU</a></li>
+          <li><a href="mailto:support@annasetu.org"><i class="fa-solid fa-envelope"></i> help@annasetu.org</a></li>
+          <li><a href="#"><i class="fa-solid fa-shield"></i> Food Safety Charter</a></li>
+          <li><a href="#"><i class="fa-solid fa-file-contract"></i> Privacy & Terms</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2026 अन्न-Setu Foundation. All rights reserved. Built with ❤️ for humanity and nature.</div>
+      <div style="display:flex; gap: 16px;">
+        <a href="#" style="color: inherit;">Privacy Policy</a>
+        <a href="#" style="color: inherit;">Terms of Service</a>
+        <a href="#" style="color: inherit;">Security Status</a>
+      </div>
+    </div>
   </footer>
 
+  <!-- Scripts -->
   <script src="env.js"></script>
   <script>
+    // ── AUTH CHECK & PERSISTENCE (Preserving existing contract) ──
     function clearAuthSession() {
       try {
         localStorage.removeItem('token');
@@ -103,28 +622,225 @@
     }
 
     function setLoggedInUi(userName) {
-      const navLogin    = document.getElementById('navLoginLink');
-      const navRegister = document.getElementById('navRegisterLink');
-      const heroStart   = document.getElementById('heroGetStarted');
-      const heroLogin   = document.getElementById('heroLogin');
-      const heroTitle   = document.getElementById('heroTitle');
+      const navLogin       = document.getElementById('navLoginLink');
+      const navRegister    = document.getElementById('navRegisterLink');
+      const mobLogin       = document.getElementById('mobileNavLoginLink');
+      const mobRegister    = document.getElementById('mobileNavRegisterLink');
+      const heroStart      = document.getElementById('heroGetStarted');
+      const heroLogin      = document.getElementById('heroLogin');
+      const heroTitle      = document.getElementById('heroTitle');
 
-      if (navLogin)    { navLogin.textContent = 'Dashboard'; navLogin.href = 'dashboard.html'; }
-      if (navRegister) {
-        navRegister.textContent = 'Logout';
-        navRegister.href = '#';
-        navRegister.addEventListener('click', e => { e.preventDefault(); clearAuthSession(); window.location.reload(); });
+      const applyLogin = (btn, isLogout = false) => {
+        if (!btn) return;
+        if (isLogout) {
+          btn.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span>';
+          btn.href = '#';
+          btn.addEventListener('click', e => {
+            e.preventDefault();
+            clearAuthSession();
+            window.location.reload();
+          });
+        } else {
+          btn.innerHTML = '<i class="fa-solid fa-gauge-high"></i> <span>Dashboard</span>';
+          btn.href = 'dashboard.html';
+        }
+      };
+
+      applyLogin(navLogin, false);
+      applyLogin(navRegister, true);
+      applyLogin(mobLogin, false);
+      applyLogin(mobRegister, true);
+
+      if (heroStart) {
+        heroStart.innerHTML = '<i class="fa-solid fa-gauge-high"></i> <span>Go to Dashboard</span>';
+        heroStart.href = 'dashboard.html';
       }
-      if (heroStart) { heroStart.textContent = 'Go to Dashboard'; heroStart.href = 'dashboard.html'; }
       if (heroLogin) {
-        heroLogin.textContent = 'Logout';
-        heroLogin.href = '#';
-        heroLogin.addEventListener('click', e => { e.preventDefault(); clearAuthSession(); window.location.reload(); });
+        heroLogin.innerHTML = '<i class="fa-solid fa-plus-circle"></i> <span>Add Food Listing</span>';
+        heroLogin.href = 'addfood.html';
       }
-      if (heroTitle && userName) heroTitle.textContent = `Welcome back, ${userName}`;
+      if (heroTitle && userName) {
+        heroTitle.innerHTML = `Welcome back, <span class="gradient-text">${userName}</span>`;
+      }
     }
 
+    // ── MOBILE MENU TOGGLE ──
+    const mobileToggle = document.getElementById('mobileToggle');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    const toggleIcon   = document.getElementById('toggleIcon');
+
+    if (mobileToggle && mobileDrawer) {
+      mobileToggle.addEventListener('click', () => {
+        const isOpen = mobileDrawer.classList.toggle('open');
+        toggleIcon.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+      });
+
+      document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileDrawer.classList.remove('open');
+          toggleIcon.className = 'fa-solid fa-bars';
+        });
+      });
+    }
+
+    // ── NAVBAR SCROLL GLASSMORPHISM ──
+    window.addEventListener('scroll', () => {
+      const navWrapper = document.getElementById('navbarWrapper');
+      if (navWrapper) {
+        if (window.scrollY > 40) {
+          navWrapper.classList.add('scrolled');
+        } else {
+          navWrapper.classList.remove('scrolled');
+        }
+      }
+    });
+
+    // ── INTERACTIVE HERO NEXUS TIER SELECTOR ──
+    const nexusData = {
+      human: {
+        img: 'images/hero_food_rescue.jpg',
+        tierTag: '<i class="fa-solid fa-utensils"></i> Tier 1: Human Sustenance',
+        grade: 'AI Score: 98% Fresh',
+        gradeColor: 'rgba(245, 158, 11, 0.9)',
+        food: 'Paneer Masala & Jeera Rice',
+        donor: '<i class="fa-solid fa-hotel"></i> The Royal Grand Banquet Hall',
+        qty: '85 kg',
+        impact: '~210 Meals',
+        shelf: '3h 40m',
+        origin: 'Sector 62, Noida',
+        dest: 'City Hope Shelter'
+      },
+      cattle: {
+        img: 'images/cattle_feed.jpg',
+        tierTag: '<i class="fa-solid fa-cow"></i> Tier 2: Cattle Fodder',
+        grade: 'Nutrition Grade A',
+        gradeColor: 'rgba(34, 197, 94, 0.9)',
+        food: 'Surplus Rotis & Clean Greens',
+        donor: '<i class="fa-solid fa-building-columns"></i> Campus Central Mess B',
+        qty: '120 kg',
+        impact: '40 Cattle-Days',
+        shelf: '14 Hours',
+        origin: 'Hostel Block 4, Delhi',
+        dest: 'Shri Krishna Gaushala'
+      },
+      compost: {
+        img: 'foodimages/main.jpg',
+        tierTag: '<i class="fa-solid fa-seedling"></i> Tier 3: Organic Compost',
+        grade: 'High Nitrogen Blend',
+        gradeColor: 'rgba(16, 185, 129, 0.9)',
+        food: 'Raw Vegetable Trimmings',
+        donor: '<i class="fa-solid fa-store"></i> Metro Wholesale Mandi',
+        qty: '240 kg',
+        impact: '160 kg Compost',
+        shelf: '24 Hours',
+        origin: 'Azadpur Terminal',
+        dest: 'Green Earth Co-op Pits'
+      },
+      energy: {
+        img: 'images/hero_food_rescue.jpg',
+        tierTag: '<i class="fa-solid fa-bolt-lightning"></i> Tier 4: Clean Biogas',
+        grade: 'Methanogenic Feed',
+        gradeColor: 'rgba(2, 132, 199, 0.9)',
+        food: 'Mixed Organic Slurry Waste',
+        donor: '<i class="fa-solid fa-warehouse"></i> Food Processing Hub',
+        qty: '500 kg',
+        impact: '68 kWh Clean Power',
+        shelf: 'Continuous',
+        origin: 'Okhla Industrial Phase',
+        dest: 'Municipal Bio-Digester'
+      }
+    };
+
+    const tabButtons = document.querySelectorAll('.nexus-tab-btn');
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const tier = btn.dataset.tier;
+        const d = nexusData[tier];
+        if (!d) return;
+
+        const imgEl = document.getElementById('nexusImg');
+        const tagTier = document.getElementById('nexusTagTier');
+        const gradeEl = document.getElementById('nexusAiGrade');
+        const foodEl = document.getElementById('nexusFoodName');
+        const donorEl = document.getElementById('nexusDonor');
+        const qtyEl = document.getElementById('nexusQty');
+        const impactEl = document.getElementById('nexusImpact');
+        const shelfEl = document.getElementById('nexusShelf');
+        const originEl = document.getElementById('nexusOrigin');
+        const destEl = document.getElementById('nexusDest');
+
+        if (imgEl) imgEl.src = d.img;
+        if (tagTier) tagTier.innerHTML = d.tierTag;
+        if (gradeEl) {
+          gradeEl.textContent = d.grade;
+          gradeEl.style.backgroundColor = d.gradeColor;
+        }
+        if (foodEl) foodEl.textContent = d.food;
+        if (donorEl) donorEl.innerHTML = d.donor;
+        if (qtyEl) qtyEl.textContent = d.qty;
+        if (impactEl) impactEl.textContent = d.impact;
+        if (shelfEl) shelfEl.textContent = d.shelf;
+        if (originEl) originEl.textContent = d.origin;
+        if (destEl) destEl.textContent = d.dest;
+      });
+    });
+
+
+    // ── WORKFLOW TABS (DONOR VS RECEIVER) ──
+    const flowTabs = document.querySelectorAll('.workflow-tab-btn');
+    const flowContent = {
+      donors: {
+        step1Title: '1. Snap & Auto-List',
+        step1Desc: 'Take a photo of surplus food on your mobile device. Our AI instantly classifies the cuisine, freshness, and estimates portions.',
+        step2Title: '2. Smart Proximity Broadcast',
+        step2Desc: 'Nearby verified NGOs, cattle shelters, or composting units receive high-priority alerts within a 5 km radius.',
+        step3Title: '3. Verified Zero-Friction Pickup',
+        step3Desc: 'Claimants provide a secure OTP at handover. You receive instantaneous tax-exemption and sustainability credits.'
+      },
+      receivers: {
+        step1Title: '1. Geolocation Alerts',
+        step1Desc: 'Get notified via SMS & App notification the second edible surplus or wholesome fodder is listed in your coverage zone.',
+        step2Title: '2. One-Tap Batch Claim',
+        step2Desc: 'Lock the batch, view verified AI freshness ratings, and assign a volunteer driver or pickup vehicle.',
+        step3Title: '3. Nourish & Log Impact',
+        step3Desc: 'Distribute hot meals to beneficiaries or fodder to cattle. Automatically log meals served on your verified public dashboard.'
+      }
+    };
+
+    flowTabs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        flowTabs.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const flow = btn.dataset.flow;
+        const d = flowContent[flow];
+        if (!d) return;
+
+        document.getElementById('step1Title').textContent = d.step1Title;
+        document.getElementById('step1Desc').textContent = d.step1Desc;
+        document.getElementById('step2Title').textContent = d.step2Title;
+        document.getElementById('step2Desc').textContent = d.step2Desc;
+        document.getElementById('step3Title').textContent = d.step3Title;
+        document.getElementById('step3Desc').textContent = d.step3Desc;
+      });
+    });
+
+    // ── FAQ ACCORDION ──
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      const q = item.querySelector('.faq-question');
+      q.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        faqItems.forEach(i => i.classList.remove('active'));
+        if (!isActive) item.classList.add('active');
+      });
+    });
+
+    // ── INITIALIZATION ──
     document.addEventListener('DOMContentLoaded', async () => {
+
+      // Check token and set logged in UI
       const token = localStorage.getItem('token');
       if (!token) return;
       const url = window.apiUrl ? window.apiUrl('/api/auth/user-stats') : '/api/auth/user-stats';
@@ -142,4 +858,5 @@
     });
   </script>
 </body>
+
 </html>

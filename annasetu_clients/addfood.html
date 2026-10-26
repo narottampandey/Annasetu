@@ -55,7 +55,7 @@
                 </div>
                 <div class="header-right">
                     <button type="button" onclick="location.href='dashboard.html'" class="btn-back">
-                        <i class="fa fa-arrow-left"></i> Back to Dashboard
+                        Back to Dashboard
                     </button>
                 </div>
             </div>
@@ -63,27 +63,18 @@
             <!-- STATS & IMPACT ROW -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-icon" style="background: #e8f5e9; color: #2e7d32;">
-                        <i class="fa fa-hand-holding-heart"></i>
-                    </div>
                     <div class="stat-content">
                         <h3>Zero Food Waste</h3>
                         <p>Reduces methane emissions and nourishes those in need</p>
                     </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon" style="background: #e3f2fd; color: #1976d2;">
-                        <i class="fa fa-bolt"></i>
-                    </div>
                     <div class="stat-content">
                         <h3>Fast Volunteer Match</h3>
                         <p>Nearby verified volunteers receive prompt pickup alerts</p>
                     </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon" style="background: #fff3e0; color: #f57c00;">
-                        <i class="fa fa-wand-magic-sparkles"></i>
-                    </div>
                     <div class="stat-content">
                         <h3>AI Quality Verified</h3>
                         <p>Gemini AI verifies freshness and safety guidelines</p>
@@ -190,8 +181,8 @@
                         <!-- Leaflet Map Container -->
                         <div class="map-wrapper full-width">
                             <div class="map-header-bar">
-                                <span class="map-title"><i class="fa fa-map"></i> Pickup Map Pinpoint</span>
-                                <span class="map-hint"><i class="fa fa-hand-pointer"></i> Drag pin on map to adjust exact pickup coordinates</span>
+                                <span class="map-title">Pickup Map Pinpoint</span>
+                                <span class="map-hint">Drag pin on map to adjust exact pickup coordinates</span>
                             </div>
                             <div id="locationMap"></div>
                         </div>
@@ -213,15 +204,12 @@
                     <!-- Enhanced Upload Dropzone -->
                     <div class="upload-box-enhanced" id="uploadBox">
                         <div class="upload-content">
-                            <div class="upload-icon-circle">
-                                <i class="fa fa-cloud-arrow-up"></i>
-                            </div>
                             <p class="upload-title">Drop photos here or click to browse</p>
                             <p class="upload-subtitle">Upload <strong>2 to 4 high-quality food photos</strong> (JPEG, PNG, WEBP)</p>
                             <div class="upload-specs-pills">
-                                <span><i class="fa fa-check"></i> Min 2 images</span>
-                                <span><i class="fa fa-check"></i> Max 4 images</span>
-                                <span><i class="fa fa-check"></i> Clear packaging</span>
+                                <span>Min 2 images</span>
+                                <span>Max 4 images</span>
+                                <span>Clear packaging</span>
                             </div>
                         </div>
                         <input type="file" id="imageUpload" multiple accept="image/*">
@@ -237,16 +225,12 @@
                     <div class="ai-verification-box">
                         <div class="ai-box-header">
                             <div class="ai-badge-title">
-                                <div class="ai-icon-pulse">
-                                    <i class="fa fa-wand-magic-sparkles"></i>
-                                </div>
                                 <div>
                                     <h3 class="ai-title">Gemini AI Quality Inspection</h3>
                                     <p class="ai-desc">Detect freshness, assess edible safety, and categorize optimal distribution</p>
                                 </div>
                             </div>
                             <button type="button" id="aiAnalyzeBtn" class="btn-ai">
-                                <i class="fa fa-wand-magic-sparkles"></i>
                                 <span>Analyze Quality</span>
                             </button>
                         </div>
@@ -259,8 +243,8 @@
                         <!-- AI Results Card -->
                         <div id="aiResults" class="ai-results" style="display: none;">
                             <div class="ai-results-header">
-                                <h3><i class="fa fa-circle-check" style="color: #2e7d32;"></i> AI Inspection Summary</h3>
-                                <span class="ai-model-tag"><i class="fa fa-bolt"></i> Verified by Gemini</span>
+                                <h3>AI Inspection Summary</h3>
+                                <span class="ai-model-tag">Verified by Gemini</span>
                             </div>
 
                             <div id="analyzedItem" class="analyzed-item-box"></div>
@@ -273,39 +257,29 @@
 
                             <!-- Recommendation -->
                             <div class="recommendation-box">
-                                <span class="rec-label"><i class="fa fa-comment-dots"></i> Safety & Shelf-Life Assessment:</span>
+                                <span class="rec-label">Safety & Shelf-Life Assessment:</span>
                                 <p class="ai-recommendation" id="aiRecommendation"></p>
                             </div>
 
                             <!-- Suitability Details -->
                             <details class="suitability-details">
                                 <summary class="suitability-summary">
-                                    <span><i class="fa fa-sliders"></i> View Detailed Suitability Breakdown</span>
-                                    <i class="fa fa-chevron-down arrow-icon"></i>
+                                    <span>View Detailed Suitability Breakdown</span>
                                 </summary>
                                 <div class="result-cards">
                                     <div class="result-card human">
-                                        <div class="result-icon-badge" style="background: #e8f5e9;">
-                                            <i class="fa fa-users" style="color: #2e7d32;"></i>
-                                        </div>
                                         <div class="result-content">
                                             <h4>Human Consumption</h4>
                                             <p id="humanResult">-</p>
                                         </div>
                                     </div>
                                     <div class="result-card cattle">
-                                        <div class="result-icon-badge" style="background: #fff3e0;">
-                                            <i class="fa fa-cow" style="color: #ff9800;"></i>
-                                        </div>
                                         <div class="result-content">
                                             <h4>Animal Feed</h4>
                                             <p id="cattleResult">-</p>
                                         </div>
                                     </div>
                                     <div class="result-card fertilizer">
-                                        <div class="result-icon-badge" style="background: #e3f2fd;">
-                                            <i class="fa fa-seedling" style="color: #2196f3;"></i>
-                                        </div>
                                         <div class="result-content">
                                             <h4>Compost / Fertilizer</h4>
                                             <p id="fertilizerResult">-</p>
@@ -330,7 +304,6 @@
                             Cancel
                         </button>
                         <button type="submit" class="btn-primary">
-                            <i class="fa fa-heart"></i>
                             <span>Donate Food</span>
                         </button>
                     </div>
@@ -594,7 +567,7 @@
                         alert('Error processing location: ' + err.message);
                     } finally {
                         btn.disabled = false;
-                        btn.innerHTML = '<i class="fa fa-crosshairs"></i> Add current location';
+                        btn.innerHTML = 'Add current location';
                     }
                 },
                 (error) => {
@@ -612,7 +585,7 @@
 
                     alert(errorMsg);
                     btn.disabled = false;
-                    btn.innerHTML = '<i class="fa fa-crosshairs"></i> Add current location';
+                    btn.innerHTML = 'Add current location';
                 },
                 options
             );
@@ -895,15 +868,15 @@
 
                     // Category information mapping
                     const categoryInfo = {
-                        human: { emoji: '<i class="fa fa-user"></i>', label: 'Human Consumption' },
-                        cattle: { emoji: '<i class="fa fa-cow"></i>', label: 'Animal Feed' },
-                        compost: { emoji: '<i class="fa fa-leaf"></i>', label: 'Organic Compost' }
+                        human: { label: 'Human Consumption' },
+                        cattle: { label: 'Animal Feed' },
+                        compost: { label: 'Organic Compost' }
                     };
 
-                    // Display category decision (emoji + label only)
+                    // Display category decision
                     const bestCategory = data.category?.category || 'human';
                     const cat = categoryInfo[bestCategory];
-                    document.getElementById("categoryDisplay").innerHTML = `${cat?.emoji || '<i class="fa fa-user"></i>'} ${cat?.label || 'Human Consumption'}`;
+                    document.getElementById("categoryDisplay").textContent = cat?.label || 'Human Consumption';
 
                     // Display AI recommendation explaining the category decision
                     document.getElementById("aiRecommendation").textContent = analysis.recommendation;

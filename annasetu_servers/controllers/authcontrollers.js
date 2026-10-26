@@ -199,8 +199,10 @@ exports.googleCallback = async (req, res) => {
 
         console.log("User logged in with Google:", email);
 
-        // Redirect to frontend with token
-        res.redirect(`http://localhost:5000/dashboard.html?token=${token}&userId=${user._id}&userName=${encodeURIComponent(user.name)}&userEmail=${encodeURIComponent(user.email)}`);
+        // Redirect to frontend with token (respecting FRONTEND_URL in production)
+        const frontendBase = (process.env.FRONTEND_URL || '').trim().replace(/\/+$/, '');
+        const redirectDashboard = frontendBase ? `${frontendBase}/dashboard.html` : '/dashboard.html';
+        res.redirect(`${redirectDashboard}?token=${token}&userId=${user._id}&userName=${encodeURIComponent(user.name)}&userEmail=${encodeURIComponent(user.email)}`);
 
     } catch (error) {
         console.error("Google callback error:", error);

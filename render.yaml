@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: annasetu-backend
+    env: node
+    branch: main
+    rootDir: annasetu_servers
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: true
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: SERVE_STATIC
+        value: "false"
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_CALLBACK_URL
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false

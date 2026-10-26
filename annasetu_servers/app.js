@@ -14,6 +14,9 @@ require("./config/passport");
 
 const app = express();
 
+// Trust reverse proxy (Render, Vercel, Cloudflare, etc.) for HTTPS and correct client IP
+app.set('trust proxy', 1);
+
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 // Configure allowed CORS origins via env var `ALLOWED_ORIGINS` (comma-separated).

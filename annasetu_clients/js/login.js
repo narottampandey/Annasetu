@@ -82,6 +82,15 @@ document.addEventListener("DOMContentLoaded", () => {
     window.history.replaceState({}, document.title, window.location.pathname);
   }
 
+  // Show error message if redirected from failed OAuth flow
+  const authError = urlParams.get('error');
+  if (authError) {
+    const errorMsg = urlParams.get('message') || 'Authentication failed. Please try again or sign in with email and password.';
+    console.error('Authentication Error from redirect:', authError, errorMsg);
+    alert('Authentication error: ' + decodeURIComponent(errorMsg));
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
   // Check for Google token on page load FIRST
   if (checkForGoogleToken()) {
     return; // Exit if token was found and we're redirecting

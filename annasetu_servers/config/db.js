@@ -37,22 +37,28 @@ const connectDB = async (retries = 3) => {
       console.log(`[${attempt}/${retries}] Connecting to MongoDB...`);
 
       await mongoose.connect(uri, {
-        serverSelectionTimeoutMS: 10000,
-        socketTimeoutMS: 10000,
+        serverSelectionTimeoutMS: 30000,
+        socketTimeoutMS: 45000,
+        connectTimeoutMS: 30000,
+        maxPoolSize: 10,
+        minPoolSize: 2,
         retryWrites: true,
         w: 'majority'
       });
 
       console.log("✓ MongoDB connected successfully");
 
-      // Handle connection reconnection events
-      mongoose.connection.on('disconnected', () => {
-        console.warn("⚠️  MongoDB disconnected - app will attempt to reconnect");
-      });
+      // Handle connection reconnection events (only register once)
+      if (!mongoose.connection._customEventsAttached) {
+        mongoose.connection._customEventsAttached = true;
+        mongoose.connection.on('disconnected', () => {
+          console.warn("⚠️  MongoDB disconnected - app will attempt to reconnect");
+        });
 
-      mongoose.connection.on('error', (error) => {
-        console.error("❌ MongoDB connection error:", error.message);
-      });
+        mongoose.connection.on('error', (error) => {
+          console.error("❌ MongoDB connection error:", error.message || error);
+        });
+      }
 
       return; // Success - exit the retry loop
 
